@@ -1,12 +1,10 @@
 licenses(['notice'])
-package(default_visibility=['//visibility:__pkg__'])
+package(default_visibility=['//visibility:public'])
+load(':libtorrent.bzl', 'single_file_example')
 
 
 cc_library(
     name = 'libtorrent',
-    visibility = [
-        '//visibility:public',
-    ],
     srcs = glob([
         'github/ed25519/src/*.cpp',
         'github/src/*.cpp',
@@ -83,18 +81,24 @@ cc_library(
 )
 
 cc_binary(
-    name = 'example_client',
-    srcs = glob([
+    name = 'client',
+    srcs = [
         'github/examples/client_test.cpp',
-        'github/examples/client_test.hpp',
         'github/examples/print.cpp',
         'github/examples/print.hpp',
         'github/examples/session_view.cpp',
         'github/examples/session_view.hpp',
         'github/examples/torrent_view.cpp',
         'github/examples/torrent_view.hpp',
-    ]),
+    ],
     deps = [
         ':libtorrent',
     ],
 )
+
+single_file_example('connection_tester')
+single_file_example('dump_torrent')
+single_file_example('make_torrent')
+single_file_example('simple_client')
+single_file_example('stats_counters')
+single_file_example('upnp_test')
