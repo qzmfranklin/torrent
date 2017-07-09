@@ -4,6 +4,11 @@ bind(
 )
 
 bind(
+    name = 'glog',
+    actual = '//third_party/glog:glog',
+)
+
+bind(
     name = 'gtest',
     actual = '//third_party/gtest:gtest',
 )
