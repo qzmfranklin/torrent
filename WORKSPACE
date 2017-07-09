@@ -4,13 +4,13 @@ bind(
 )
 
 bind(
-    name = 'gtest_main',
-    actual = '//third_party/gtest:gtest_main',
+    name = 'gtest',
+    actual = '//third_party/gtest:gtest',
 )
 
 bind(
-    name = 'gmock_main',
-    actual = '//third_party/gtest:gmock_main',
+    name = 'gtest_main',
+    actual = '//third_party/gtest:gtest_main',
 )
 
 bind(
