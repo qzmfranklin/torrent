@@ -16,7 +16,6 @@ cc_binary(
         'glog_example.cc',
     ],
     deps = [
-        '//external:gflags',
         '//external:glog',
     ],
 )
