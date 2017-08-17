@@ -19,3 +19,16 @@ cc_binary(
         '//external:glog',
     ],
 )
+
+cc_library(
+    name = 'main',
+    visibility = [
+        '//visibility:public',
+    ],
+    srcs = [
+        'main.cc',
+    ],
+    deps = [
+        '//external:glog',
+    ],
+)
