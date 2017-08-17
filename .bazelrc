@@ -39,3 +39,9 @@ build:tsan --copt -fsanitize=thread
 build:tsan --copt -O1
 build:tsan --copt -g
 build:tsan --linkopt -fsanitize=thread
+
+
+# Perform static analysis instead of actually compiling the code.
+# Pre-requisite:
+#       sudo pip3 install protobuf
+build:analyze --experimental_action_listener=tools/actions:generate_compile_commands_listener

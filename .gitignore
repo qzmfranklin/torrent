@@ -33,3 +33,6 @@
 
 # Bazel build directories
 bazel-*
+
+# clang compile commands database
+compile_commands.json
