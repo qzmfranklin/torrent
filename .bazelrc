@@ -2,6 +2,12 @@
 build --crosstool_top=//tools/cpp:toolchain --cpu=clang
 
 
+# Use our own protobuf compiler and toolchains for c++ and java.
+build --proto_compiler=//third_party/protobuf:protoc
+build --proto_toolchain_for_cc=//third_party/protobuf:cc_toolchain
+build --proto_toolchain_for_java=//third_party/protobuf:java_toolchain
+
+
 # The sanitizers rely on the existence of `llvm-symbolizer` in the $PATH.
 # On Ubuntu 17.04, this usually means:
 #       sudo apt install clang

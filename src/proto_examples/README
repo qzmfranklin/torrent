@@ -1,0 +1,25 @@
+This directory demonstrates using protobuf in Java and C++.
+
+
+The .proto files in this directory are modified from the following git repository:
+        https://github.com/cgrushko/proto_library
+
+
+A few flags are tuned to make the X_proto_library rules search for the correct
+language specific toolchains, by adding the following few lines to .bazelrc:
+    ```
+    build --proto_compiler=//third_party/protobuf:protoc
+    build --proto_toolchain_for_cc=//third_party/protobuf:cc_toolchain
+    build --proto_toolchain_for_java=//third_party/protobuf:java_toolchain
+    ```
+
+You can look at the default values for these flags:
+    bazel help build | grep protobuf
+
+
+How to run python protobuf?
+
+    The python runtime is located at third_party/protobuf/python/google, or may
+    be installed via `sudo pip3 install protobuf`.  It supports python 2.6, 2.7,
+    3.3, and 3.4.  It is known to be very slow in implementation and is an
+    ongoing effort.
