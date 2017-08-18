@@ -2,6 +2,14 @@
 build --crosstool_top=//tools/cpp:toolchain --cpu=clang
 
 
+# Perform static analysis while compiling C++ code.
+# Pre-requisite:
+#       sudo pip3 install protobuf
+# This would cause a 10-15% performance degradation, which is, I think, fairly
+# acceptable.
+build --experimental_action_listener=tools/actions:generate_compile_commands_listener
+
+
 # Use our own protobuf compiler and toolchains for c++ and java.
 build --proto_compiler=//third_party/protobuf:protoc
 build --proto_toolchain_for_cc=//third_party/protobuf:cc_toolchain
@@ -45,9 +53,3 @@ build:tsan --copt -fsanitize=thread
 build:tsan --copt -O1
 build:tsan --copt -g
 build:tsan --linkopt -fsanitize=thread
-
-
-# Perform static analysis instead of actually compiling the code.
-# Pre-requisite:
-#       sudo pip3 install protobuf
-build:analyze --experimental_action_listener=tools/actions:generate_compile_commands_listener
