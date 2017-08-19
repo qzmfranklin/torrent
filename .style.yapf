@@ -1,0 +1,5 @@
+[style]
+blank_line_before_nested_class_or_def = true
+split_before_logical_operator = true
+split_penalty_excess_character = 999
+split_penalty_for_added_line_split = 0
