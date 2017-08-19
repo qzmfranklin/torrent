@@ -1,9 +1,9 @@
 #include <string>
 #include <google/protobuf/text_format.h>
 
-#include "src/proto_examples/address.pb.h"
-#include "src/proto_examples/person.pb.h"
-#include "src/proto_examples/zip_code.pb.h"
+#include "src/proto/examples/address.pb.h"
+#include "src/proto/examples/person.pb.h"
+#include "src/proto/examples/zip_code.pb.h"
 
 /*
  * This program should print the following text:
