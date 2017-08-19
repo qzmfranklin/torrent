@@ -10,6 +10,10 @@ build --crosstool_top=//tools/cpp:toolchain --cpu=clang
 build --experimental_action_listener=tools/actions:generate_compile_commands_listener
 
 
+# Use python3 in all places.
+build --python_top=tools/python:py-3
+
+
 # Use our own protobuf compiler and toolchains for c++ and java.
 build --proto_compiler=//third_party/protobuf:protoc
 build --proto_toolchain_for_cc=//third_party/protobuf:cc_toolchain
