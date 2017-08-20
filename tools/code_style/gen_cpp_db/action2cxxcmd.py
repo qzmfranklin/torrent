@@ -1,6 +1,7 @@
 # This is the implementation of a Bazel extra_action which genenerates
 # _compile_command files for generate_compile_commands.py to consume.
 
+import argparse
 import json
 import subprocess
 import sys
@@ -11,14 +12,23 @@ import sys
 import extra_actions_base_pb2
 
 
+def update_parser(parser):
+    parser.add_argument(
+        'extra_action_bin',
+        help='the file name of the serialized extra_action message')
+    parser.add_argument(
+        'output_file',
+        help='output file name')
+
+
 def main():
-    # TODO: Use argparse
-    argv = sys.argv
-    ifname = argv[1]
-    ofname = argv[2]
+    parser = argparse.ArgumentParser(description=__doc__)
+    update_parser(parser)
+
+    args = parser.parse_args()
 
     action = extra_actions_base_pb2.ExtraActionInfo()
-    with open(ifname, 'rb') as f:
+    with open(args.extra_action_bin, 'rb') as f:
         action.MergeFromString(f.read())
     cpp_compile_info = action.Extensions[
             extra_actions_base_pb2.CppCompileInfo.cpp_compile_info]
@@ -34,7 +44,7 @@ def main():
     # TODO: Formalize the blacklisting of files.
     if source_fname.startswith('third_party/'):
         data = {}
-    with open(ofname, 'w') as f:
+    with open(args.output_file, 'w') as f:
         json.dump(data, f, sort_keys=True, indent=4)
 
 
