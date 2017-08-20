@@ -7,7 +7,7 @@ build --crosstool_top=//tools/cpp:toolchain --cpu=clang
 #       sudo pip3 install protobuf
 # This would cause a 10-15% performance degradation, which is, I think, fairly
 # acceptable.
-build --experimental_action_listener=tools/actions:generate_compile_commands_listener
+build --experimental_action_listener=tools/code_style/gen_cpp_db:gen_cxx_cmd_listener
 
 
 # Use python3 in all places.

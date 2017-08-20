@@ -26,10 +26,10 @@ def get_bazel_info(key):
 def main(argv):
     data = []
     execution_root = get_bazel_info('execution_root')
-    compile_command_fname_pattern = os.path.normpath(os.path.join(
-                get_bazel_info('bazel-bin'), '../extra_actions',
-                'tools/actions/generate_compile_commands_action',
-                '**/*_compile_command'))
+    compile_command_fname_pattern = os.path.normpath(
+        os.path.join(
+            get_bazel_info('bazel-bin'), '../extra_actions',
+            'tools/code_style/gen_cpp_db', '**/*_cpp_compile_command'))
     for fname in glob.iglob(compile_command_fname_pattern, recursive=True):
         with open(fname, 'r') as f:
             datum = json.load(f)
