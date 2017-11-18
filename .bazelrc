@@ -1,30 +1,36 @@
-# Build using a custom C++ toolchain.
+# Generic build configurations.
+build --color=yes
+build --jobs=8
+build --verbose_failures
+
+
+# Use custom C/C++ toolchain.
+#
+# Using --cpu=clang will choose the custom toolchain named 'linux_clang' in the
+# tools/cpp/CROSSTOOL file.  The object files are linked against the clang
+# library located at /opt/clang/5.0/lib.  You must add it to LD_LIBRARY_PATH
+# before running the binary.
 build --crosstool_top=//tools/cpp:toolchain --cpu=clang
 
 
-# Perform static analysis while compiling C++ code.
+# Prepare to perform static analysis while compiling C++ code.
 # Pre-requisite:
 #       sudo pip3 install protobuf
-# This would cause a 10-15% performance degradation, which is, I think, fairly
-# acceptable.
-build --experimental_action_listener=tools/code_style/gen_cpp_db:gen_cxx_cmd_listener
-
-
-# Use python3 in all places.
-build --python_top=tools/python:py-3
-
-
-# Use our own protobuf compiler and toolchains for c++ and java.
-build --proto_compiler=//third_party/protobuf:protoc
-build --proto_toolchain_for_cc=//third_party/protobuf:cc_toolchain
-build --proto_toolchain_for_java=//third_party/protobuf:java_toolchain
+# It is hard coded to ignore all source files under third_party/.
+# Turning this one normally has a 20% performance penalty.
+#build --experimental_action_listener=tools/code_style/gen_cpp_db:gen_cxx_cmd_listener
 
 
 # The sanitizers rely on the existence of `llvm-symbolizer` in the $PATH.
 # On Ubuntu 17.04, this usually means:
 #       sudo apt install clang
 #       sudo ln -s usr/bin/llvm-symbolizer-4.0 usr/bin/llvm-symbolizer
+# If you use a custom clang based toolchain, make sure to use the
+# llvm-symbolizer shipped with your toolchain.
 
+
+# To enable different build mode, e.g., tsan , add --config=tsan to the bazel
+# build command.
 
 # Build the cpp code using the LLVM Address Sanitizer:
 #       https://clang.llvm.org/docs/AddressSanitizer.html
@@ -57,3 +63,13 @@ build:tsan --copt -fsanitize=thread
 build:tsan --copt -O1
 build:tsan --copt -g
 build:tsan --linkopt -fsanitize=thread
+
+
+# Use python3 in all places.
+build --python_top=tools/python:py-3
+
+
+# Use our own protobuf compiler and toolchains for c++ and java.
+build --proto_compiler=//third_party/protobuf:protoc
+build --proto_toolchain_for_cc=//third_party/protobuf:cc_toolchain
+build --proto_toolchain_for_java=//third_party/protobuf:java_toolchain
