@@ -1,6 +1,6 @@
 licenses(['notice'])
 package(default_visibility=['//visibility:public'])
-load(':libtorrent.bzl', 'single_file_example')
+load(':libtorrent.bzl', 'single_file_example', 'libtorrent_copts')
 
 
 cc_library(
@@ -19,7 +19,7 @@ cc_library(
         'github/include',
         'github/ed25519/src',
     ],
-    copts = [
+    copts = libtorrent_copts + [
         '-DBOOST_ASIO_ENABLE_CANCELIO=1',
         '-DBOOST_ASIO_HAS_STD_CHRONO=1',
         '-DBOOST_EXCEPTION_DISABLE=1',
@@ -63,8 +63,9 @@ cc_library(
         '-DOPENSSL_API_COMPAT=0x10000000L',
     ],
     linkopts = [
-        '-pthread',
         '-ldl',
+        '-lm',
+        '-pthread',
     ],
     deps = [
         '//third_party/boost:asio',
@@ -94,6 +95,7 @@ cc_binary(
     deps = [
         ':libtorrent',
     ],
+    copts = libtorrent_copts,
 )
 
 single_file_example('connection_tester')
