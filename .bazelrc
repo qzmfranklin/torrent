@@ -1,10 +1,20 @@
-# Generic build configurations.
+#                       Generic Build Configurations
+#
+# Always allow color.
 build --color=yes
+# '--jobs=auto' uses the number of processors.  But I want the number of
+# threads.
 build --jobs=8
+# Upon failure, print the failure message and the command executed.
 build --verbose_failures
+# Don't update the progress bar too frequently.  That actually slows down the
+# build significantly.
+build --show_progress_rate_limit=1.0
+# Dump the explanation, in verbose manner to a file named bazel-buildlogs.
+build --explain=bazel-buildlogs
+build --verbose_explanations
 
-
-# Use custom C/C++ toolchain.
+#                       Custom C/C++ Toolchain
 #
 # Using --cpu=clang will choose the custom toolchain named 'linux_clang' in the
 # tools/cpp/CROSSTOOL file.  The object files are linked against the clang
@@ -13,23 +23,50 @@ build --verbose_failures
 build --crosstool_top=//tools/cpp:toolchain --cpu=clang
 
 
+#                       Enable clang-tidy and More
+#
 # Prepare to perform static analysis while compiling C++ code.
 # Pre-requisite:
 #       sudo pip3 install protobuf
 # It is hard coded to ignore all source files under third_party/.
-# Turning this one normally has a 20% performance penalty.
+#
+#
+# Why is this useful and how to use it?
+#
+#       This enables a few extremely useful C/C++ source code tools such as
+#       clang-tidy.  Those tools require the complete compile command as input.
+#       This listener stores the serialized protobuf data into a bazel build
+#       directory.  Then running the following command
+#           tools/code_style/gen_cpp_db/gen_cpp_db.py
+#       generates compile_commands.json, which can be fed to those clang-*
+#       tools to batch process.
+#
+#
+# Why not turn this on by default?
+#
+#       Turning this on has a significant, 20% or more, penalty on performance.
+#       The ideal place to turn on this option is in a CI system that
+#       continuously performs various checks and optimizations on source code.
+#
+#
 #build --experimental_action_listener=tools/code_style/gen_cpp_db:gen_cxx_cmd_listener
 
 
+#                   LLVM clang Sanitizers
+#
+#
 # The sanitizers rely on the existence of `llvm-symbolizer` in the $PATH.
-# On Ubuntu 17.04, this usually means:
+# Using clang-4.0 on Ubuntu 17.04, this usually means:
 #       sudo apt install clang
 #       sudo ln -s usr/bin/llvm-symbolizer-4.0 usr/bin/llvm-symbolizer
+#
 # If you use a custom clang based toolchain, make sure to use the
 # llvm-symbolizer shipped with your toolchain.
-
-
-# To enable different build mode, e.g., tsan , add --config=tsan to the bazel
+#
+#
+# Here only asan, msan, and tsan are configured.
+#
+# To enable different build mode, e.g., tsan, add --config=tsan to the bazel
 # build command.
 
 # Build the cpp code using the LLVM Address Sanitizer:
@@ -65,11 +102,12 @@ build:tsan --copt -g
 build:tsan --linkopt -fsanitize=thread
 
 
-# Use python3 in all places.
+
+#                   Python3 Toolchain
 build --python_top=tools/python:py-3
 
 
-# Use our own protobuf compiler and toolchains for c++ and java.
+#                   Protobuf Toolchains
 build --proto_compiler=//third_party/protobuf:protoc
 build --proto_toolchain_for_cc=//third_party/protobuf:cc_toolchain
 build --proto_toolchain_for_java=//third_party/protobuf:java_toolchain
