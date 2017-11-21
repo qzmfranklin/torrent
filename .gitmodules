@@ -19,3 +19,6 @@
 [submodule "third_party/glog"]
 	path = third_party/glog
 	url = ../glog.git
+[submodule "third_party/libunwind"]
+	path = third_party/libunwind
+	url = ../libunwind
