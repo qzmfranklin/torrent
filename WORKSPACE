@@ -19,6 +19,11 @@ bind(
 )
 
 bind(
+    name = 'libunwind',
+    actual = '//third_party/libunwind:libunwind',
+)
+
+bind(
     name = 'openssl',
     actual = '//third_party/openssl:ssl',
 )
