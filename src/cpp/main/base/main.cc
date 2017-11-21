@@ -4,7 +4,7 @@
 // Note that this function is not declared with `extern "C"`, thus having a C++
 // linkage.  This is made so deliberately to guard against subtle difference in
 // the function signatures, e.g., `int MAIN(int, char const **)`.
-extern int _MAIN_(int argc, char **argv);
+extern int MAIN(int argc, char **argv);
 
 int main(int argc, char **argv)
 {
@@ -17,5 +17,5 @@ int main(int argc, char **argv)
     //google::InstallFailureFunction(&YourFailureFunction);
     google::ShutDownCommandLineFlags();
 
-    return _MAIN_(argc, argv);
+    return MAIN(argc, argv);
 }
