@@ -32,3 +32,13 @@ cc_library(
         '//external:glog',
     ],
 )
+
+cc_binary(
+    name = 'demo_main',
+    srcs = [
+        'demo_main.cc',
+    ],
+    deps = [
+        ':main',
+    ],
+)

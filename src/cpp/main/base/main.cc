@@ -4,7 +4,7 @@
 // Note that this function is not declared with `extern "C"`, thus having a C++
 // linkage.  This is made so deliberately to guard against subtle difference in
 // the function signatures, e.g., `int MAIN(int, char const **)`.
-extern int MAIN(int argc, char **argv);
+extern int _MAIN_(int argc, char **argv);
 
 int main(int argc, char **argv)
 {
@@ -13,8 +13,9 @@ int main(int argc, char **argv)
     google::ParseCommandLineFlags(&argc, &argv, true);
     google::InitGoogleLogging(argv[0]);
     google::InstallFailureSignalHandler();
-    // google::InstallFailureFunction(&YourFailureFunction);
+    // Uncomment the following line to install your own signal handlers.
+    //google::InstallFailureFunction(&YourFailureFunction);
     google::ShutDownCommandLineFlags();
 
-    return MAIN(argc, argv);
+    return _MAIN_(argc, argv);
 }
