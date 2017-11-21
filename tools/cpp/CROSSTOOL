@@ -358,9 +358,14 @@ toolchain {
 
     compiler_flag: "-O3"
 
-    # Enable the maximal level of link time optimization.  Can be very slow at
-    # link time.
+    # Enable the maximal level of link time optimization.
+    # WARNING: Slower at compile time.  Extremely slow at link time.
     compiler_flag: "-flto=full"
+
+    # FIXME: Somehow Bazel injects '-Wa,--noexecstack' when running in OPT mode.
+    # That causes tons of useless warnings to be emitted.  Suppress them for
+    # now.
+    compiler_flag: "-Wno-unused-command-line-argument"
 
     # Disable assertions
     compiler_flag: "-DNDEBUG"
