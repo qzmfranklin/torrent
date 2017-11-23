@@ -1,29 +1,5 @@
-bind(
-    name = 'gflags',
-    actual = '//third_party/gflags:gflags',
-)
+workspace(name = 'torrent')
 
-bind(
-    name = 'glog',
-    actual = '//third_party/glog:glog',
-)
+load('//bazel:workspace.bzl', 'torrent_repositories')
 
-bind(
-    name = 'gtest',
-    actual = '//third_party/gtest:gtest',
-)
-
-bind(
-    name = 'gtest_main',
-    actual = '//third_party/gtest:gtest_main',
-)
-
-bind(
-    name = 'libunwind',
-    actual = '//third_party/libunwind:libunwind',
-)
-
-bind(
-    name = 'openssl',
-    actual = '//third_party/openssl:ssl',
-)
+torrent_repositories()
