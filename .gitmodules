@@ -19,3 +19,6 @@
 [submodule "third_party/libunwind"]
 	path = third_party/libunwind
 	url = ../libunwind
+[submodule "third_party/libtorrent"]
+	path = third_party/libtorrent
+	url = ../libtorrent
