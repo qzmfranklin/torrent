@@ -13,6 +13,8 @@ build --show_progress_rate_limit=1.0
 # Dump the explanation, in verbose manner to a file named bazel-buildlogs.
 build --explain=bazel-buildlogs
 build --verbose_explanations
+# Do not inherit environment variables to ensure fully hermetic build.
+--experimental_strict_action_env
 
 #                       Custom C/C++ Toolchain
 #
@@ -104,6 +106,13 @@ build:tsan --copt -O1
 build:tsan --copt -g
 build:tsan --linkopt -fsanitize=thread
 
+
+# Build the cpp code with code coverage instrumentation.
+#       https://clang.llvm.org/docs/SourceBasedCodeCoverage.html
+build:cov --copt -fcoverage-mapping
+build:cov --copt -fprofile-instr-generate
+build:cov --linkopt -fcoverage-mapping
+build:cov --linkopt -fprofile-instr-generate
 
 
 #                   Python3 Toolchain

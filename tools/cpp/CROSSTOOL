@@ -215,12 +215,12 @@ toolchain {
   # How this toolchain is constructed:
   #     1.  Download a prebuilt clang binary from
   #             http://releases.llvm.org/5.0.0/clang+llvm-5.0.0-linux-x86_64-ubuntu16.04.tar.xz
-  #     2.  Extract the tarball into /opt/clang/5.0.  Make sure the `clang`
-  #         binary is located at /opt/clang/5.0/bin/clang.
+  #     2.  Extract the tarball into /opt/clang/5.0.0.  Make sure the `clang`
+  #         binary is located at /opt/clang/5.0.0/bin/clang.
   #     3.  Configure this Bazel toolchain.  At this point, you can already
   #         build stuff.  But you might not be able to run them just yet.
   #     4.  Export the follwing:
-  #             export LD_LIBRARY_PATH=/opt/clang/5.0/lib
+  #             export LD_LIBRARY_PATH=/opt/clang/5.0.0/lib
   #
   # Hooray! A custom LLVM-based toolchain, linking against libc++, with almost
   # full C++17 support, link time optimization, and extremely user friendly
@@ -244,30 +244,30 @@ toolchain {
   target_system_name: "local"
   toolchain_identifier: "linux_clang"
 
-  tool_path { name: "ar" path: "/opt/clang/5.0/bin/llvm-ar" }
-  tool_path { name: "compat-ld" path: "/opt/clang/5.0/bin/ld.lld" }
-  tool_path { name: "cpp" path: "/opt/clang/5.0/bin/clang-cpp" }
-  tool_path { name: "dwp" path: "/opt/clang/5.0/bin/llvm-dwp" }
-  tool_path { name: "gcc" path: "/opt/clang/5.0/bin/clang" }
+  tool_path { name: "ar" path: "/opt/clang/5.0.0/bin/llvm-ar" }
+  tool_path { name: "compat-ld" path: "/opt/clang/5.0.0/bin/ld.lld" }
+  tool_path { name: "cpp" path: "/opt/clang/5.0.0/bin/clang-cpp" }
+  tool_path { name: "dwp" path: "/opt/clang/5.0.0/bin/llvm-dwp" }
+  tool_path { name: "gcc" path: "/opt/clang/5.0.0/bin/clang" }
   tool_path { name: "gcov" path: "/usr/bin/gcov" }
-  tool_path { name: "ld" path: "/opt/clang/5.0/bin/ld.lld" }
-  tool_path { name: "nm" path: "/opt/clang/5.0/bin/llvm-nm" }
+  tool_path { name: "ld" path: "/opt/clang/5.0.0/bin/ld.lld" }
+  tool_path { name: "nm" path: "/opt/clang/5.0.0/bin/llvm-nm" }
   tool_path { name: "objcopy" path: "/usr/bin/objcopy" }
-  tool_path { name: "objdump" path: "/opt/clang/5.0/bin/llvm-objdump" }
+  tool_path { name: "objdump" path: "/opt/clang/5.0.0/bin/llvm-objdump" }
   tool_path { name: "strip" path: "/usr/bin/strip" }
 
   # TODO(bazel-team): In theory, the path here ought to exactly match the path
   # used by gcc. That works because bazel currently doesn't track files at
   # absolute locations and has no remote execution, yet. However, this will need
   # to be fixed, maybe with auto-detection?
-  cxx_builtin_include_directory: "/opt/clang/5.0/include/c++/v1"
-  cxx_builtin_include_directory: "/opt/clang/5.0/lib/clang/5.0.0/include"
+  cxx_builtin_include_directory: "/opt/clang/5.0.0/include/c++/v1"
+  cxx_builtin_include_directory: "/opt/clang/5.0.0/lib/clang/5.0.0/include"
   #cxx_builtin_include_directory: "/usr/lib/gcc/"
   cxx_builtin_include_directory: "/usr/local/include"
   cxx_builtin_include_directory: "/usr/include"
 
   # Use the C++ headers shipped with clang.
-  cxx_flag: "-isystem/opt/clang/5.0/include/c++/v1"
+  cxx_flag: "-isystem/opt/clang/5.0.0/include/c++/v1"
   cxx_flag: "-nostdinc++"
   # Use ISO C++17 pedantically.
   cxx_flag: "-std=c++17"
@@ -275,7 +275,7 @@ toolchain {
   # Use the lld linker.
   linker_flag: "-fuse-ld=lld"
   # Use the LLVM libc++ instead of the GNU libstdc++.
-  linker_flag: "-L/opt/clang/5.0/lib"
+  linker_flag: "-L/opt/clang/5.0.0/lib"
   linker_flag: "-lc++"
   linker_flag: "-lc++abi"
 
