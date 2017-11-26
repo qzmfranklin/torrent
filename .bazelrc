@@ -82,6 +82,9 @@ build:asan --action_env=ASAN_OPTIONS=check_initialization_order=1
 
 # Build the cpp code using the LLVM Memory Sanitizer:
 #       https://clang.llvm.org/docs/MemorySanitizer.html
+#
+# If you find the output of the Msan hard to understand, please ensure that
+# `llvm-symbolizer` is available in the PATH environment variable.
 build:msan --strip=never
 build:msan --copt -fsanitize=memory
 build:msan --copt -fsanitize-memory-track-origins
