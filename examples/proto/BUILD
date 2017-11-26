@@ -7,7 +7,6 @@ cc_binary(
     ],
     deps = [
         ':person_cc_proto',
-        '//src/cpp/main/base:main',
     ],
 )
 

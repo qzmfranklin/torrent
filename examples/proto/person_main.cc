@@ -1,9 +1,9 @@
 #include <string>
 #include <google/protobuf/text_format.h>
 
-#include "src/proto/examples/address.pb.h"
-#include "src/proto/examples/person.pb.h"
-#include "src/proto/examples/zip_code.pb.h"
+#include "examples/proto/address.pb.h"
+#include "examples/proto/person.pb.h"
+#include "examples/proto/zip_code.pb.h"
 
 /*
  * This program should print the following text:
@@ -20,7 +20,7 @@
 
 using namespace google::protobuf;
 
-int MAIN(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 

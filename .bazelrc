@@ -14,7 +14,9 @@ build --show_progress_rate_limit=1.0
 build --explain=bazel-buildlogs
 build --verbose_explanations
 # Do not inherit environment variables to ensure fully hermetic build.
---experimental_strict_action_env
+build --experimental_strict_action_env
+run --experimental_strict_action_env
+test --experimental_strict_action_env
 
 #                       Custom C/C++ Toolchain
 #
