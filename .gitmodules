@@ -22,3 +22,6 @@
 [submodule "third_party/libtorrent"]
 	path = third_party/libtorrent
 	url = ../libtorrent
+[submodule "third_party/jemalloc"]
+	path = third_party/jemalloc
+	url = ../jemalloc
