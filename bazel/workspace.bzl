@@ -1,19 +1,14 @@
+load('//tools/bazel_rules:github_archive.bzl', 'github_archive')
+
+
 def repositories():
     _third_party_binding()
-    _bazel_rules()
 
-
-def _bazel_rules():
-    _pex_rules()
-
-
-def _pex_rules():
-    git_name = 'bazel_rules_pex'
-    commit_md5 = '2ee6864f73c32020c4f214a802ccb72d8f090b30'
-    native.http_archive(
+    github_archive(
         name = 'io_bazel_rules_pex',
-        strip_prefix = '%s-%s' % (git_name, commit_md5),
-        url = 'https://github.com/qzmfranklin/%s/archive/%s.tar.gz' % (git_name, commit_md5)
+        github_user = 'qzmfranklin',
+        github_name = 'bazel_rules_pex',
+        commit = '2ee6864f73c32020c4f214a802ccb72d8f090b30',
     )
 
 
@@ -38,6 +33,11 @@ def _third_party_binding():
     native.bind(
         name = 'gtest_main',
         actual = '//third_party/gtest:gtest_main',
+    )
+
+    native.bind(
+        name = 'jemalloc',
+        actual = '//third_party/jemalloc:jemalloc',
     )
 
     native.bind(
