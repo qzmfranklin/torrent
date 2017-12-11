@@ -31,3 +31,6 @@
 [submodule "third_party/zlib"]
 	path = third_party/zlib
 	url = ../zlib
+[submodule "third_party/benchmark"]
+	path = third_party/benchmark
+	url = ../benchmark
