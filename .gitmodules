@@ -25,3 +25,9 @@
 [submodule "third_party/jemalloc"]
 	path = third_party/jemalloc
 	url = ../jemalloc
+[submodule "third_party/grpc"]
+	path = third_party/grpc
+	url = ../grpc
+[submodule "third_party/zlib"]
+	path = third_party/zlib
+	url = ../zlib
