@@ -1,3 +1,23 @@
+Softwares under the third_party directory are all forked from their official
+github repositories, thus inheriting whatever licenses they are using in their
+official github repositories, respectively.
+
+External dependencies specified in the WORKSPACE file and the various files
+included by the WORKSPACE file, directly or indirectly, inherit their
+corresponding licenses, respectively.
+
+All other softwares are written by and copyrighted under the name of Zhongming
+Qu.  Those materials are all licensed under the GNU GENERAL PUBLIC LICENSE
+version 3, the full text of which is attached below.
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
