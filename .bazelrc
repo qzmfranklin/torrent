@@ -1,6 +1,8 @@
 #                       Generic Build Configurations
 #
-# Always allow color.
+# Always allow color.  Note that this does mean that the test logs will preserve
+# the ANSI color escape sequences.  To preserve color while viewing them, use
+# `less -r`.
 build --color=yes
 # '--jobs=auto' uses the number of processors.  But I want the number of
 # threads.
