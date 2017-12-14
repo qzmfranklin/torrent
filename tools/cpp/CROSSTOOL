@@ -269,9 +269,11 @@ toolchain {
   # Use the C++ headers shipped with clang.
   cxx_flag: "-isystem/opt/clang/5.0.0/include/c++/v1"
   cxx_flag: "-nostdinc++"
-  # Use ISO C++17 pedantically.
+  # Default to using ISO C++17.
+  # Note that cc_{library,binary,test} rules may override using -std=<dialect>.
+  # This is so because only the last occurrence of -std takes effect.
   cxx_flag: "-std=c++17"
-  cxx_flag: "-pedantic"
+  #cxx_flag: "-pedantic"
   # Use the lld linker.
   linker_flag: "-fuse-ld=lld"
   # Use the LLVM libc++ instead of the GNU libstdc++.
