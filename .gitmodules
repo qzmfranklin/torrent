@@ -43,3 +43,6 @@
 [submodule "third_party/boringssl"]
 	path = third_party/boringssl
 	url = ../boringssl
+[submodule "third_party/icu"]
+	path = third_party/icu
+	url = ../icu
