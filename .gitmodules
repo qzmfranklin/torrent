@@ -49,3 +49,6 @@
 [submodule "third_party/c-ares"]
 	path = third_party/c-ares
 	url = ../c-ares
+[submodule "third_party/cctz"]
+	path = third_party/cctz
+	url = ../cctz
