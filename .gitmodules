@@ -46,3 +46,6 @@
 [submodule "third_party/icu"]
 	path = third_party/icu
 	url = ../icu
+[submodule "third_party/c-ares"]
+	path = third_party/c-ares
+	url = ../c-ares
