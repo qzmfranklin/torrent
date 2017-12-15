@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """One-line summary"""
 
-import src.python.demo_pex.foo as foo
+import examples.python.pex.foo as foo
 
 import flask
 import yaml
