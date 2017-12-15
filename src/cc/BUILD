@@ -9,7 +9,7 @@ cc_library(
         'main.cc',
     ],
     deps = [
-        '//external:glog',
+        '//third_party/glog',
     ],
 )
 

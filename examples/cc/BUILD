@@ -6,7 +6,7 @@ cc_binary(
         'gflags_example.cc',
     ],
     deps = [
-        '//external:gflags',
+        '//third_party/gflags',
     ],
 )
 
@@ -16,7 +16,7 @@ cc_binary(
         'glog_example.cc',
     ],
     deps = [
-        '//external:glog',
+        '//third_party/glog',
     ],
 )
 
