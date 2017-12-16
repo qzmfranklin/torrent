@@ -55,23 +55,26 @@ def grpc_cc_library(name, srcs = [], public_hdrs = [], hdrs = [],
   )
 
 def grpc_proto_plugin(name, srcs = [], deps = []):
+  copts = []
+  if native.package_name():
+    copts = ["-I" + native.package_name()]
   native.cc_binary(
     name = name,
     srcs = srcs,
+    copts = copts,
     deps = deps,
   )
 
 load("//tools/bazel_rules/grpc:cc_grpc_library.bzl", "cc_grpc_library")
 
 def grpc_proto_library(name, srcs = [], deps = [], well_known_protos = False,
-                       has_services = True, use_external = False, generate_mock = False):
+                       has_services = True, generate_mock = False):
   cc_grpc_library(
     name = name,
     srcs = srcs,
     deps = deps,
     well_known_protos = well_known_protos,
     proto_only = not has_services,
-    use_external = use_external,
     generate_mock = generate_mock,
   )
 
