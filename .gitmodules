@@ -55,3 +55,6 @@
 [submodule "third_party/abseil-cpp"]
 	path = third_party/abseil-cpp
 	url = ../abseil-cpp
+[submodule "third_party/nanopb"]
+	path = third_party/nanopb
+	url = ../nanopb
