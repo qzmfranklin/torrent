@@ -52,3 +52,6 @@
 [submodule "third_party/cctz"]
 	path = third_party/cctz
 	url = ../cctz
+[submodule "third_party/abseil-cpp"]
+	path = third_party/abseil-cpp
+	url = ../abseil-cpp
