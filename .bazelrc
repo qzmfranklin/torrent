@@ -124,6 +124,6 @@ build --python_top=tools/python:py-3
 
 
 #                   Protobuf Toolchains
-build --proto_compiler=//third_party/protobuf:protoc
-build --proto_toolchain_for_cc=//third_party/protobuf:cc_toolchain
-build --proto_toolchain_for_java=//third_party/protobuf:java_toolchain
+build --proto_compiler=//third_party/cc/protobuf:protoc
+build --proto_toolchain_for_cc=//third_party/cc/protobuf:cc_toolchain
+build --proto_toolchain_for_java=//third_party/cc/protobuf:java_toolchain

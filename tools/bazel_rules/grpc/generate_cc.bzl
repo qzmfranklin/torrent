@@ -4,6 +4,8 @@ This is an internal rule used by cc_grpc_library, and shouldn't be used
 directly.
 """
 
+PROTOBUF_REPO_PATH = "//third_party/cc/protobuf"
+
 def generate_cc_impl(ctx):
   """Implementation of the generate_cc rule."""
   protos = [f for src in ctx.attr.srcs for f in src.proto.direct_sources]
@@ -40,13 +42,10 @@ def generate_cc_impl(ctx):
   well_known_proto_files = []
   if ctx.attr.well_known_protos:
     f = ctx.attr.well_known_protos.files.to_list()[0].dirname
-    if f != "external/com_google_protobuf/src/google/protobuf":
-      print("Error: Only @com_google_protobuf//:well_known_protos is supported")
-    else:
-      # f points to "external/com_google_protobuf/src/google/protobuf"
-      # add -I argument to protoc so it knows where to look for the proto files.
-      arguments += ["-I{0}".format(f + "/../..")]
-      well_known_proto_files = [f for f in ctx.attr.well_known_protos.files]
+    # f is equal to, in my case, "third_party/cc/protobuf/src/google/protobuf".
+    # Add -I argument to protoc so it knows where to look for the proto files.
+    arguments += ["-I%s/../.." % f]
+    well_known_proto_files = [f for f in ctx.attr.well_known_protos.files]
 
   ctx.action(
       inputs = protos + includes + additional_input + well_known_proto_files,
@@ -81,7 +80,7 @@ _generate_cc = rule(
             mandatory = False,
         ),
         "_protoc": attr.label(
-            default = Label("//third_party/protobuf:protoc"),
+            default = Label("%s:protoc" % PROTOBUF_REPO_PATH),
             executable = True,
             cfg = "host",
         ),
@@ -93,6 +92,7 @@ _generate_cc = rule(
 
 def generate_cc(well_known_protos, **kwargs):
   if well_known_protos:
-    _generate_cc(well_known_protos="//third_party/protobuf:well_known_protos", **kwargs)
+    _generate_cc(well_known_protos="%s:well_known_protos" % PROTOBUF_REPO_PATH,
+                 **kwargs)
   else:
     _generate_cc(**kwargs)

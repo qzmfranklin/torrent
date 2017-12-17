@@ -1,60 +1,60 @@
 [submodule "third_party/openssl"]
-	path = third_party/openssl
+	path = third_party/cc/openssl
 	url = ../openssl.git
 [submodule "third_party/boost"]
-	path = third_party/boost
+	path = third_party/cc/boost
 	url = ../boost.git
 [submodule "third_party/gflags"]
-	path = third_party/gflags
+	path = third_party/cc/gflags
 	url = ../gflags.git
 [submodule "third_party/gtest"]
-	path = third_party/gtest
+	path = third_party/cc/gtest
 	url = ../googletest.git
 [submodule "third_party/protobuf"]
-	path = third_party/protobuf
+	path = third_party/cc/protobuf
 	url = ../protobuf.git
 [submodule "third_party/glog"]
-	path = third_party/glog
+	path = third_party/cc/glog
 	url = ../glog.git
 [submodule "third_party/libunwind"]
-	path = third_party/libunwind
+	path = third_party/cc/libunwind
 	url = ../libunwind
 [submodule "third_party/libtorrent"]
-	path = third_party/libtorrent
+	path = third_party/cc/libtorrent
 	url = ../libtorrent
 [submodule "third_party/jemalloc"]
-	path = third_party/jemalloc
+	path = third_party/cc/jemalloc
 	url = ../jemalloc
 [submodule "third_party/grpc"]
-	path = third_party/grpc
+	path = third_party/cc/grpc
 	url = ../grpc
 [submodule "third_party/zlib"]
-	path = third_party/zlib
+	path = third_party/cc/zlib
 	url = ../zlib
 [submodule "third_party/benchmark"]
-	path = third_party/benchmark
+	path = third_party/cc/benchmark
 	url = ../benchmark
 [submodule "third_party/capstone"]
-	path = third_party/capstone
+	path = third_party/cc/capstone
 	url = ../capstone
 [submodule "third_party/re2"]
-	path = third_party/re2
+	path = third_party/cc/re2
 	url = ../re2
 [submodule "third_party/boringssl"]
-	path = third_party/boringssl
+	path = third_party/cc/boringssl
 	url = ../boringssl
 [submodule "third_party/icu"]
-	path = third_party/icu
+	path = third_party/cc/icu
 	url = ../icu
 [submodule "third_party/c-ares"]
-	path = third_party/c-ares
+	path = third_party/cc/c-ares
 	url = ../c-ares
 [submodule "third_party/cctz"]
-	path = third_party/cctz
+	path = third_party/cc/cctz
 	url = ../cctz
 [submodule "third_party/abseil-cpp"]
-	path = third_party/abseil-cpp
+	path = third_party/cc/abseil-cpp
 	url = ../abseil-cpp
 [submodule "third_party/nanopb"]
-	path = third_party/nanopb
+	path = third_party/cc/nanopb
 	url = ../nanopb

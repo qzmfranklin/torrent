@@ -1,6 +1,7 @@
 """Generates and compiles C++ grpc stubs from proto_library rules."""
 
-load("//tools/bazel_rules/grpc:generate_cc.bzl", "generate_cc")
+load("//tools/bazel_rules/grpc:generate_cc.bzl", "generate_cc",
+     "PROTOBUF_REPO_PATH")
 
 def cc_grpc_library(name, srcs, deps, proto_only, well_known_protos,
                     generate_mock, **kwargs):
@@ -21,11 +22,11 @@ def cc_grpc_library(name, srcs, deps, proto_only, well_known_protos,
   if len(srcs) > 1:
     fail("Only one srcs value supported", "srcs")
 
-  proto_target = "_" + name + "_only"
+  proto_target = "_" + name + "_protoonly"
   codegen_target = "_" + name + "_codegen"
   codegen_grpc_target = "_" + name + "_grpc_codegen"
-  proto_deps = ["_" + dep + "_only" for dep in deps if dep.find(':') == -1]
-  proto_deps += [dep.split(':')[0] + ':' + "_" + dep.split(':')[1] + "_only" for dep in deps if dep.find(':') != -1]
+  proto_deps = ["_" + dep + "_protoonly" for dep in deps if dep.find(':') == -1]
+  proto_deps += [dep.split(':')[0] + ':' + "_" + dep.split(':')[1] + "_protoonly" for dep in deps if dep.find(':') != -1]
 
   native.proto_library(
       name = proto_target,
@@ -42,7 +43,7 @@ def cc_grpc_library(name, srcs, deps, proto_only, well_known_protos,
   )
 
   if not proto_only:
-    plugin = "//third_party/grpc:grpc_cpp_plugin"
+    plugin = "//third_party/cc/grpc:grpc_cpp_plugin"
 
     generate_cc(
         name = codegen_grpc_target,
@@ -53,8 +54,8 @@ def cc_grpc_library(name, srcs, deps, proto_only, well_known_protos,
         **kwargs
     )
 
-    grpc_deps = ["//third_party/grpc:grpc++_codegen_proto",
-                 "//third_party/protobuf"]
+    grpc_deps = ["//third_party/cc/grpc:grpc++_codegen_proto",
+                 "%s:protobuf" % PROTOBUF_REPO_PATH]
 
     native.cc_library(
         name = name,
@@ -68,6 +69,6 @@ def cc_grpc_library(name, srcs, deps, proto_only, well_known_protos,
         name = name,
         srcs = [":" + codegen_target],
         hdrs = [":" + codegen_target],
-        deps = deps + ["//third_party/protobuf"],
+        deps = deps + ["%s:protobuf" % PROTOBUF_REPO_PATH],
         **kwargs
     )
