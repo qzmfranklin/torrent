@@ -1,5 +1,4 @@
-load('//tools/bazel_rules:github_archive.bzl', 'github_archive')
-
+load('//tools/build_defs:github_archive.bzl', 'github_archive')
 
 def repositories():
     # go_rules 0.8.0 breaks the build of the buildtools:

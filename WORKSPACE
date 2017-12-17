@@ -4,8 +4,8 @@ load('//bazel:workspace.bzl', torrent_repositories = 'repositories')
 torrent_repositories()
 
 # Load the Go toolchain.
-load("@io_bazel_rules_go//go:def.bzl", "go_rules_dependencies",
-     "go_register_toolchains")
+load('@io_bazel_rules_go//go:def.bzl', 'go_rules_dependencies',
+     'go_register_toolchains')
 go_rules_dependencies()
 go_register_toolchains()
 
@@ -13,7 +13,7 @@ go_register_toolchains()
 # TODO (zhongming): Remove this once go_rules is upgraded to 0.8.0.  Currently
 # that is pending a bug:
 #       https://github.com/bazelbuild/buildtools/issues/174
-load("@io_bazel_rules_go//proto:def.bzl", "proto_register_toolchains")
+load('@io_bazel_rules_go//proto:def.bzl', 'proto_register_toolchains')
 proto_register_toolchains()
 
 # Enable PythonPex.

@@ -16,7 +16,9 @@ licenses(["notice"])  # 3-clause BSD
 
 package(default_visibility = ["//visibility:public"])
 
-load("//tools/bazel_rules/grpc:grpc_build_system.bzl", "grpc_proto_library")
+# The loading of the grpc_proto_library rule is done in
+# tools/build_rules/prelude_bazel.
+#load('//tools/build_rules/grpc:grpc_build_system.bzl', 'grpc_proto_library')
 
 grpc_proto_library(
     name = "auth_sample",

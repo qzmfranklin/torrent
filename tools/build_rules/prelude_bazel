@@ -1,0 +1,16 @@
+# Rules and loaded here are preluded, as explained here:
+#       https://skydoc.bazel.build/docs/getting_started.html
+#
+# CAVEATS:
+#
+#       This content of this file is prepended to each BUILD file in this
+#       project.  As a result, it must be full path to reference targets.
+#
+#       You may refrence external repositories here with the @<repo_name>
+#       convention.
+#
+#       To reference a file stored in this repository, you must preped the at
+#       sign, '@', to the full path.  This is a nuance found in this thread:
+#               https://groups.google.com/forum/#!topic/bazel-discuss/sG5G5eMFYYA
+
+load('@//tools/build_rules/grpc:grpc_build_system.bzl', 'grpc_proto_library')
