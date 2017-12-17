@@ -58,3 +58,6 @@
 [submodule "third_party/nanopb"]
 	path = third_party/cc/nanopb
 	url = ../nanopb
+[submodule "third_party/python/six"]
+	path = third_party/python/six
+	url = ../six
