@@ -8,9 +8,9 @@ The .proto files in this directory are modified from the following git repositor
 A few flags are tuned to make the X_proto_library rules search for the correct
 language specific toolchains, by adding the following few lines to .bazelrc:
     ```
-    build --proto_compiler=//third_party/protobuf:protoc
-    build --proto_toolchain_for_cc=//third_party/protobuf:cc_toolchain
-    build --proto_toolchain_for_java=//third_party/protobuf:java_toolchain
+    build --proto_compiler=//third_party/cc/protobuf:protoc
+    build --proto_toolchain_for_cc=//third_party/cc/protobuf:cc_toolchain
+    build --proto_toolchain_for_java=//third_party/cc/protobuf:java_toolchain
     ```
 
 You can look at the default values for these flags:
