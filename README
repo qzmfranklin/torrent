@@ -1,0 +1,53 @@
+Enterprise file sharing powered by BitTorrent.
+
+
+This project solves the problem of distributing files across an enterprise
+network.  Imagined problems:
+    1.  The Continuous Integration (CI) system builds large artifacts every day,
+        deploying those artifacts to the production cluster using ssh, http, or
+        ftp is usually too slow as it is very likely to encounter network
+        bottleneck issues.
+    2.  Mission critical, yet large (binary) files must be synchronized to
+        sites across the globe.  Transcontinenal links are usually too narrow
+        and flakey for conventional methods to work efficiently and reliably.
+
+
+Why BitTorrent?
+    1.  BitTorrent is designed to solve problems exactly like the ones described
+        above.  It relieves much of the stress on the network bandwidth by
+        enabling peer-to-peer transmission of packets.  Topologically, the data
+        will propagate as fast as it can given the network condition.
+    2.  BitTorrent is battle tested.  There have been numerous production
+        quality BitTorrent clients developed for various platforms.  It has been
+        proven as performant and reliable for file sharing purposes.
+    3.  BitTorrent is fully open source.
+
+
+Roadmap of this project:
+
+    1.  Prepare third_party/ and building basic examples/.
+        External dependencies are included as git submodules under third_party/.
+        A submodule tracks a github repo that is forked from the official github
+        repo of that name.
+
+    2.  Research the use cases and design the user interface.
+        This step should produce a design doc covering at least the following
+        aspects:
+            -  Define terminologies.
+            -  There are two components: the daemon and the client.
+            -  The daemon and the client interact via grpc and protobuf.
+            -  The grpc/protobuf interface should be extensible to REST.
+               Describe what should be done to ensure such extensibility.
+            -  Define the grpc methods for the client to publish, list, and
+               retrieve artifacts.
+            -  What security problems may exist and ideally how they should be
+               solved.  The initial design doc does not need to lay out detailed
+               plan.  But the design should have been performed with security in
+               mind so that it is easy to add security features later.
+            -  Define the procedure of performing functional tests and
+               benchmarking.
+            -  Describe how to utilize LLVM technologies such to perform various
+               checkings and optimizations in a way that is particularly
+               relevant to this project.
+            -  Enumerate any public docker registries being used and supply the
+               Dockerfiles.
