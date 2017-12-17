@@ -23,3 +23,18 @@ def repositories():
         github_name = 'buildtools',
         commit = '0.6.0',
     )
+
+    # Required by skydoc.
+    github_archive(
+        name = 'io_bazel_rules_sass',
+        github_user = 'bazelbuild',
+        github_name = 'rules_sass',
+        commit = '0.0.3',
+    )
+
+    github_archive(
+        name = 'io_bazel_skydoc',
+        github_user = 'bazelbuild',
+        github_name = 'skydoc',
+        commit = '0.1.4',
+    )

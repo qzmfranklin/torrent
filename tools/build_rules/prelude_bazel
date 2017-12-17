@@ -14,3 +14,10 @@
 #               https://groups.google.com/forum/#!topic/bazel-discuss/sG5G5eMFYYA
 
 load('@//tools/build_rules/grpc:grpc_build_system.bzl', 'grpc_proto_library')
+
+load(
+    '@io_bazel_skydoc//skylark:skylark.bzl',
+    'skydoc_repositories',
+    'skylark_library',
+    'skylark_doc',
+)

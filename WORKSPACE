@@ -26,3 +26,9 @@ bind(
     name = 'buildifier',
     actual = '@com_github_bazelbuild_buildtools//buildifier',
 )
+
+# Enable skydoc, building HTML and Markdown documents from .bzl files.
+load('@io_bazel_rules_sass//sass:sass.bzl', 'sass_repositories')
+sass_repositories()
+load('@io_bazel_skydoc//skylark:skylark.bzl', 'skydoc_repositories')
+skydoc_repositories()
