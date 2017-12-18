@@ -13,6 +13,10 @@
 #       sign, '@', to the full path.  This is a nuance found in this thread:
 #               https://groups.google.com/forum/#!topic/bazel-discuss/sG5G5eMFYYA
 
+# TODO: This is a workaround to support python protobuf.  Should remove it once
+# Bazel supports the py_proto_library() rule natively.
+#load('@//tools/build_rules/protobuf:py_proto_library.bzl', 'py_proto_library')
+
 load('@//tools/build_rules/grpc:grpc_build_system.bzl', 'grpc_proto_library')
 
 load(

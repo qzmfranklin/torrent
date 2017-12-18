@@ -4,7 +4,7 @@ This is an internal rule used by cc_grpc_library, and shouldn't be used
 directly.
 """
 
-PROTOBUF_REPO_PATH = "//third_party/cc/protobuf"
+load("//tools/build_rules/protobuf:protobuf.bzl", "PROTOBUF_REPO_PATH")
 
 def generate_cc_impl(ctx):
   """Implementation of the generate_cc rule."""

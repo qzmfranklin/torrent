@@ -1,8 +1,8 @@
 """Generates and compiles C++ grpc stubs from proto_library rules."""
 
 #load("//tools/bazel_rules/grpc:generate_cc.bzl", "generate_cc",
-load(":generate_cc.bzl", "generate_cc",
-     "PROTOBUF_REPO_PATH")
+load(":generate_cc.bzl", "generate_cc")
+load("//tools/build_rules/protobuf:protobuf.bzl", "PROTOBUF_REPO_PATH")
 
 def cc_grpc_library(name, srcs, deps, proto_only, well_known_protos,
                     generate_mock, **kwargs):
