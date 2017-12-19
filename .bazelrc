@@ -22,11 +22,11 @@ test --experimental_strict_action_env
 
 #                       Custom C/C++ Toolchain
 #
-# Using --cpu=clang will choose the custom toolchain named 'linux_clang' in the
+# Using --cpu=llvm will choose the custom toolchain named 'linux_clang' in the
 # tools/cpp/CROSSTOOL file.  The object files are linked against the clang
 # library located at /opt/clang/5.0/lib.  You must add it to LD_LIBRARY_PATH
 # before running the binary.
-build --crosstool_top=//tools/cpp:toolchain --cpu=clang
+build --crosstool_top=//tools/cpp:toolchain --cpu=llvm
 
 
 #                       Enable clang-tidy and More

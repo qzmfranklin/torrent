@@ -7,7 +7,7 @@ default_toolchain {
   toolchain_identifier: "local_linux"
 }
 default_toolchain {
-  cpu: "clang"
+  cpu: "llvm"
   toolchain_identifier: "linux_clang"
 }
 default_toolchain {

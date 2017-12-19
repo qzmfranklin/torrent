@@ -105,7 +105,7 @@ cc_toolchain(
 )
 
 cc_toolchain(
-    name = "cc-compiler-clang",
+    name = "cc-compiler-llvm",
     all_files = ":empty",
     compiler_files = ":empty",
     cpu = "local",
