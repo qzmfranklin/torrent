@@ -1,3 +1,5 @@
+package examples.proto;
+
 import demo.AddressOuterClass.Address;
 import demo.PersonOuterClass.Person;
 import demo.ZipCodeOuterClass.ZipCode;
