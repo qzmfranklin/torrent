@@ -1,0 +1,34 @@
+Super concise list of requirements:
+  - An x86_64 family CPU, SandyBridge or later.
+  - Linux kernel no later than mid 2017.  I have been using 4.10.  But I do not
+    see why 3.10 should not work.
+  - The llvm-clang (5.0.0 or later, the version is hard coded into CROSSTOOL)
+    toolchain properly installed.  Earlier versions may work.
+  - Bazel 0.6.0 or later.  There might be some breaking changes in the future.
+    But it should be easy to fix.
+
+Things that SHOULD NOT matter:
+  - Which shell is in use, i.e., bash, dash, zsh, fish, etc..
+  - Environment variables.
+
+The goal is to guarantee bit-reproducibility by clearly specifying all
+dependencies within Bazel.
+
+All the above said, the development was done on a Ubuntu 16.04 machine running
+Intel i7 3770K with 32G DRAM and 2x1TB SSDs.
+
+Here is a little script you can use to create the same build environment as the
+one I had:
+
+    wget https://github.com/bazelbuild/bazel/releases/download/0.9.0/bazel-0.9.0-installer-linux-x86_64.sh --output-document bazel-installer.sh
+    sudo sh bazel-installer.sh
+    wget http://releases.llvm.org/5.0.1/clang+llvm-5.0.1-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output-document clang-5.0.1.tar.xz
+    tar xfJ clang-5.0.1.tar.xz
+    sudo mv clang+llvm-5.0.1-x86_64-linux-gnu-ubuntu-16.04 /opt/clang/5.0.1
+    # At this point, please verify that /opt/clang/5.0.1/bin/clang exists.
+
+You may create a Dockerfile with the above commands and it SHOULD work.
+
+
+If you want to entertain building btfs from source:
+    sudo apt install -y libtorrent-rasterbar-dev libfuse-dev libcurl4-nss-dev

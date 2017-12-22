@@ -21,33 +21,3 @@ Why BitTorrent?
         quality BitTorrent clients developed for various platforms.  It has been
         proven as performant and reliable for file sharing purposes.
     3.  BitTorrent is fully open source.
-
-
-Roadmap of this project:
-
-    1.  Prepare third_party/ and building basic examples/.
-        External dependencies are included as git submodules under third_party/.
-        A submodule tracks a github repo that is forked from the official github
-        repo of that name.
-
-    2.  Research the use cases and design the user interface.
-        This step should produce a design doc covering at least the following
-        aspects:
-            -  Define terminologies.
-            -  There are two components: the daemon and the client.
-            -  The daemon and the client interact via grpc and protobuf.
-            -  The grpc/protobuf interface should be extensible to REST.
-               Describe what should be done to ensure such extensibility.
-            -  Define the grpc methods for the client to publish, list, and
-               retrieve artifacts.
-            -  What security problems may exist and ideally how they should be
-               solved.  The initial design doc does not need to lay out detailed
-               plan.  But the design should have been performed with security in
-               mind so that it is easy to add security features later.
-            -  Define the procedure of performing functional tests and
-               benchmarking.
-            -  Describe how to utilize LLVM technologies such to perform various
-               checkings and optimizations in a way that is particularly
-               relevant to this project.
-            -  Enumerate any public docker registries being used and supply the
-               Dockerfiles.
