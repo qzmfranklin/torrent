@@ -64,3 +64,6 @@
 [submodule "third_party/cc/cpython"]
 	path = third_party/cc/cpython
 	url = ../cpython
+[submodule "third_party/cc/flatbuffers"]
+	path = third_party/cc/flatbuffers
+	url = ../flatbuffers
