@@ -73,3 +73,6 @@
 [submodule "third_party/cc/curl"]
 	path = third_party/cc/curl
 	url = ../curl
+[submodule "third_party/cc/pcre2"]
+	path = third_party/cc/pcre2
+	url = ../pcre2
