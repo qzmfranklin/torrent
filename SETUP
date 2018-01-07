@@ -26,9 +26,15 @@ one I had:
     tar xfJ clang-5.0.1.tar.xz
     sudo mv clang+llvm-5.0.1-x86_64-linux-gnu-ubuntu-16.04 /opt/clang/5.0.1
     # At this point, please verify that /opt/clang/5.0.1/bin/clang exists.
+    sudo apt install -y automake libtool
+
+The above setup works on both Ubuntu 16.04 and Ubuntu 17.04.  We should really
+upgrade to clang-6.0.0 once it is released.
 
 You may create a Dockerfile with the above commands and it SHOULD work.
 
-
-If you want to entertain building btfs from source:
-    sudo apt install -y libtorrent-rasterbar-dev libfuse-dev libcurl4-nss-dev
+External dependencies:
+    [required] automake libtool:
+        Used for generating config.h and other source files inside genrule().
+    [optional] cmake:
+        Used for experimenting with cmake-native projects.

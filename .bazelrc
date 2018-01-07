@@ -18,14 +18,15 @@ build --explain=bazel-buildlogs
 build --verbose_explanations
 # Do not inherit environment variables to ensure fully hermetic build.
 build --experimental_strict_action_env
-run --experimental_strict_action_env
-test --experimental_strict_action_env
+# TODO: For some reason that is yet to be understood, I have to explicitly
+# export LD_LIBRARY_PATH=/opt/clang/5.0.1/lib even though `echo
+# $LD_LIBRARY_PATH` already yields the desired value from .bashrc.
 
 #                       Custom C/C++ Toolchain
 #
 # Using --cpu=llvm will choose the custom toolchain named 'linux_clang' in the
 # tools/cpp/CROSSTOOL file.  The object files are linked against the clang
-# library located at /opt/clang/5.0/lib.  You must add it to LD_LIBRARY_PATH
+# library located at /opt/clang/5.0.1/lib.  You must add it to LD_LIBRARY_PATH
 # before running the binary.
 build --crosstool_top=//tools/cpp:toolchain --cpu=llvm
 
