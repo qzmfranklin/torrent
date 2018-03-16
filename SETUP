@@ -22,10 +22,10 @@ one I had:
 
     wget https://github.com/bazelbuild/bazel/releases/download/0.9.0/bazel-0.9.0-installer-linux-x86_64.sh --output-document bazel-installer.sh
     sudo sh bazel-installer.sh
-    wget http://releases.llvm.org/5.0.1/clang+llvm-5.0.1-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output-document clang-5.0.1.tar.xz
-    tar xfJ clang-5.0.1.tar.xz
-    sudo mv clang+llvm-5.0.1-x86_64-linux-gnu-ubuntu-16.04 /opt/clang/5.0.1
-    # At this point, please verify that /opt/clang/5.0.1/bin/clang exists.
+    wget http://releases.llvm.org/6.0.0/clang+llvm-6.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output-document clang-6.0.0.tar.xz
+    tar xfJ clang-6.0.0.tar.xz
+    sudo mv clang+llvm-6.0.0-x86_64-linux-gnu-ubuntu-16.04 /opt/clang/6.0.0
+    # At this point, please verify that /opt/clang/6.0.0/bin/clang exists.
     sudo apt install -y automake libtool
 
 The above setup works on both Ubuntu 16.04 and Ubuntu 17.04.  We should really

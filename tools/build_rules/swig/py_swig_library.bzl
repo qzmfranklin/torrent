@@ -58,7 +58,7 @@ def _py_swig_codegen_impl(ctx):
     # Compile the interface into source files.
     ctx.actions.run(
         arguments = arguments,
-        env = dict(LD_LIBRARY_PATH='/opt/clang/5.0.1/lib'),
+        env = dict(LD_LIBRARY_PATH='/opt/clang/6.0.0/lib'),
         executable = compiler.path,
         inputs = input_files,
         mnemonic = MNEMONIC,
@@ -120,7 +120,7 @@ def _py_swig_so_impl(ctx):
     # Action.
     ctx.actions.run(
         #arguments = arguments,
-        #env = dict(LD_LIBRARY_PATH='/opt/clang/5.0.1/lib'),
+        #env = dict(LD_LIBRARY_PATH='/opt/clang/6.0.0/lib'),
         executable = 'cp',
         inputs = [orig_so],
         #mnemonic = MNEMONIC,
