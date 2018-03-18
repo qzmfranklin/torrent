@@ -4,7 +4,7 @@ Super concise list of requirements:
     see why 3.10 should not work.
   - The llvm-clang (5.0.0 or later, the version is hard coded into CROSSTOOL)
     toolchain properly installed.  Earlier versions may work.
-  - Bazel 0.6.0 or later.  There might be some breaking changes in the future.
+  - Bazel 0.11.0 or later.  There might be some breaking changes in the future.
     But it should be easy to fix.
 
 Things that SHOULD NOT matter:
@@ -22,14 +22,13 @@ one I had:
 
     wget https://github.com/bazelbuild/bazel/releases/download/0.9.0/bazel-0.9.0-installer-linux-x86_64.sh --output-document bazel-installer.sh
     sudo sh bazel-installer.sh
-    wget http://releases.llvm.org/6.0.0/clang+llvm-6.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz --output-document clang-6.0.0.tar.xz
+    wget http://releases.llvm.org/6.0.0/clang+llvm-6.0.0-x86_64-linux-gnu-ubuntu-14.04.tar.xz --output-document clang-6.0.0.tar.xz
     tar xfJ clang-6.0.0.tar.xz
-    sudo mv clang+llvm-6.0.0-x86_64-linux-gnu-ubuntu-16.04 /opt/clang/6.0.0
+    sudo mv clang+llvm-6.0.0-x86_64-linux-gnu-ubuntu-14.04 /opt/clang/6.0.0
     # At this point, please verify that /opt/clang/6.0.0/bin/clang exists.
     sudo apt install -y automake libtool
 
-The above setup works on both Ubuntu 16.04 and Ubuntu 17.04.  We should really
-upgrade to clang-6.0.0 once it is released.
+The above setup works on both Ubuntu 16.04.
 
 You may create a Dockerfile with the above commands and it SHOULD work.
 
