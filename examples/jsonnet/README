@@ -1,0 +1,10 @@
+This directory stores the various examples from the jsonnet official tutorial:
+        https://jsonnet.org/learning/tutorial.html
+
+On macOS, you can get the `jsonnet` package via homebrew:
+        brew install jsonnet
+
+On Ubuntu, I have not tried to find a good way to install `jsonnet`.
+
+The Makefile in this directory allows you to run all the necessary tests.  You
+can follow through the test_output/ directory to see the results.

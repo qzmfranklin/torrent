@@ -1,40 +1,31 @@
+load('//bazel/maven_jars:load_maven_jars.bzl', 'load_maven_jars')
 load('//tools/build_defs:github_archive.bzl', 'github_archive')
 
 def repositories():
-    # go_rules 0.8.0 breaks the build of the buildtools:
-    #       https://github.com/bazelbuild/buildtools/issues/174
+    load_maven_jars()
+
+    # TODO (zhongming): After moving to our own git server, consolidate all of
+    # these into a yaml configuration file and generate the load_git_archive.bzl
+    # file.
+
+    # docker rules
+    github_archive(
+        name = 'io_bazel_rules_docker',
+        username = 'bazelbuild',
+        reponame = 'rules_docker',
+        commit = 'v0.4.0',
+    )
+
+    # go rules
     github_archive(
         name = 'io_bazel_rules_go',
-        github_user = 'bazelbuild',
-        github_name = 'rules_go',
-        commit = '0.7.1',
+        username = 'bazelbuild',
+        reponame = 'rules_go',
+        commit = '0.12.0',
     )
-
     github_archive(
-        name = 'io_bazel_rules_pex',
-        github_user = 'qzmfranklin',
-        github_name = 'bazel_rules_pex',
-        commit = '2ee6864f73c32020c4f214a802ccb72d8f090b30',
-    )
-
-    github_archive(
-        name = 'com_github_bazelbuild_buildtools',
-        github_user = 'bazelbuild',
-        github_name = 'buildtools',
-        commit = '0.6.0',
-    )
-
-    # Required by skydoc.
-    github_archive(
-        name = 'io_bazel_rules_sass',
-        github_user = 'bazelbuild',
-        github_name = 'rules_sass',
-        commit = '0.0.3',
-    )
-
-    github_archive(
-        name = 'io_bazel_skydoc',
-        github_user = 'bazelbuild',
-        github_name = 'skydoc',
-        commit = '0.1.4',
+        name = 'bazel_gazelle',
+        username = 'bazelbuild',
+        reponame = 'bazel-gazelle',
+        commit = '0.11.0',
     )

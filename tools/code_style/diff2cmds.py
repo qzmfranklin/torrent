@@ -72,25 +72,29 @@ def update_parser(parser):
         metavar='IFILE',
         type=lambda x: sys.stdin if x == '-' else open(x, 'r'),
         default='-',
-        help='''input filename, '-' means stdin''')
+        help='''input filename, '-' means stdin'''
+    )
     parser.add_argument(
         '-o',
         dest='output',
         metavar='OFILE',
         type=lambda x: sys.stdout if x == '-' else open(x, 'r'),
         default='-',
-        help='''output filename, '-' means stdout''')
+        help='''output filename, '-' means stdout'''
+    )
     parser.add_argument(
         '-m',
         '--modified-only',
         action='store_true',
         help='''when set, the generated commands only reformats the hunks
-        modified by the input diff''')
+        modified by the input diff'''
+    )
     parser.add_argument(
         '-x',
         '--execute',
         action='store_true',
-        help='''when set, greedily issue the generated commands as well''')
+        help='''when set, greedily issue the generated commands as well'''
+    )
 
 
 def main():
@@ -99,7 +103,8 @@ def main():
 
     args = parser.parse_args()
     for cmd in cmds_from_diff(
-            args.input.read(), modified_only=args.modified_only):
+        args.input.read(), modified_only=args.modified_only
+    ):
         if args.execute:
             subprocess.call(cmd)
         else:

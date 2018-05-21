@@ -1,0 +1,10 @@
+This directory is originally copied from:
+    https://github.com/benley/bazel_rules_pex/tree/master/pex
+
+The author, @benley, does not look at the following important PR:
+    https://github.com/benley/bazel_rules_pex/pull/66
+
+Screw it. Let's just take the code and make it work.
+
+Here is an explanation of how PEX works:
+    https://www.pantsbuild.org/pex_design.html

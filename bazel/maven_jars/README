@@ -1,0 +1,33 @@
+This directory stores the files used to prepare the maven jar dependencies.
+
+
+TL;DR;
+    ./sort_jars_yaml.py
+    ./generate_bzl.py
+
+
+Manifest:
+
+    generate_bzl.py
+        Executable python script and library that generates the
+        load_maven_jars.bzl file from load_maven_jars.bzl.j2.
+
+    jars.yaml
+        Sorted dictionary of maven jars' coordinates.
+
+    load_maven_jars.bzl.j2
+        A template file.
+
+    sort_jars_yaml.py
+        A simple executable utility script used to keep the jars.yaml file
+        sorted after manual editing.
+
+
+
+How to edit the maven list:
+
+    1.  Manually edit the jars.yaml file to your content.
+    2.  Sort the jars.yaml file by running
+            ./sort_jars_yaml.py
+    3.  Regenerate the load_maven_jars.bzl file by running
+            ./generate_bzl.py

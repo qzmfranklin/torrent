@@ -1,16 +1,24 @@
+# Detailed configuration instructions are available here:
+#       https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+---
+# Use these as defaults for ALL programming languages.
+BasedOnStyle: Google
+ColumnLimit: 80
+IndentWidth: 4
+UseTab: Never
+
 ---
 Language: Cpp
-BasedOnStyle: LLVM
-IndentWidth: 4
-UseTab: Never
+IndentCaseLabels: false
 BreakBeforeBraces: Linux
 AllowShortIfStatementsOnASingleLine: false
-IndentCaseLabels: false
+
 ---
+# Java coding style must be the same with the style used by checkstyle, which is
+# defined in .checkstyle.xml.
 Language: Java
-BasedOnStyle: LLVM
-IndentWidth: 4
-UseTab: Never
-BreakBeforeBraces: Linux
-AllowShortIfStatementsOnASingleLine: false
-IndentCaseLabels: false
+
+---
+Language: Proto
+AllowShortFunctionsOnASingleLine: Empty

@@ -1,35 +1,39 @@
 #!/usr/bin/python3
+'''
+This reads the _compile_command files :generate_compile_commands_action
+generates a outputs a compile_commands.json file at the top of the source
+tree for things like clang-tidy to read.
 
-# This reads the _compile_command files :generate_compile_commands_action
-# generates a outputs a compile_commands.json file at the top of the source
-# tree for things like clang-tidy to read.
+Overall usage directions.
 
-# Overall usage directions: run bazel with
-# --experimental_action_listener=//tools/actions:generate_compile_commands_listener
-# for all the files you want to use clang-tidy with and then run this script.
-# Afer that, `clang-tidy build_tests/gflags.cc` should work.
+Run bazel with the following flag:
+# pylint: disable=line-too-long
+      --experimental_action_listener=//tools/actions:generate_compile_commands_listener
+for all the files you want to use clang-tidy with and then run this script.
+Afer that, `clang-tidy build_tests/gflags.cc` should work.
+'''
 
 import glob
 import json
 import os
-import pathlib
-import shlex
 import subprocess
 import sys
 
 
-def get_bazel_info(key):
+def get_bazel_info(key):  # pylint: disable=missing-docstring
     cmd = ['bazel', 'info', key]
     return subprocess.check_output(cmd).decode().strip()
 
 
-def main(argv):
+def main():  # pylint: disable=missing-docstring
     data = []
     execution_root = get_bazel_info('execution_root')
     compile_command_fname_pattern = os.path.normpath(
         os.path.join(
             get_bazel_info('bazel-bin'), '../extra_actions',
-            'tools/code_style/gen_cpp_db', '**/*_cpp_compile_command'))
+            'tools/code_style/gen_cpp_db', '**/*_cpp_compile_command'
+        )
+    )
     for fname in glob.iglob(compile_command_fname_pattern, recursive=True):
         with open(fname, 'r') as f:
             datum = json.load(f)
@@ -46,4 +50,4 @@ def main(argv):
 
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv))
+    sys.exit(main())

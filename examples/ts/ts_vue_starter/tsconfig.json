@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "module": "es6",
+        "moduleResolution": "node",
+        "outDir": "./built/",
+        "sourceMap": true,
+        "strict": true,
+        "target": "es6"
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}
