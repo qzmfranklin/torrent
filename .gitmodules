@@ -1,81 +1,121 @@
-[submodule "third_party/openssl"]
-	path = third_party/cc/openssl
-	url = ../openssl.git
-[submodule "third_party/boost"]
-	path = third_party/cc/boost
-	url = ../boost.git
-[submodule "third_party/gflags"]
-	path = third_party/cc/gflags
-	url = ../gflags.git
-[submodule "third_party/gtest"]
-	path = third_party/cc/gtest
-	url = ../googletest.git
-[submodule "third_party/protobuf"]
-	path = third_party/cc/protobuf
-	url = ../protobuf.git
-[submodule "third_party/glog"]
-	path = third_party/cc/glog
-	url = ../glog.git
-[submodule "third_party/libunwind"]
-	path = third_party/cc/libunwind
-	url = ../libunwind
-[submodule "third_party/libtorrent"]
-	path = third_party/cc/libtorrent
-	url = ../libtorrent
-[submodule "third_party/jemalloc"]
-	path = third_party/cc/jemalloc
-	url = ../jemalloc
-[submodule "third_party/grpc"]
-	path = third_party/cc/grpc
-	url = ../grpc
-[submodule "third_party/zlib"]
-	path = third_party/cc/zlib
-	url = ../zlib
-[submodule "third_party/benchmark"]
-	path = third_party/cc/benchmark
-	url = ../benchmark
-[submodule "third_party/capstone"]
-	path = third_party/cc/capstone
-	url = ../capstone
-[submodule "third_party/re2"]
-	path = third_party/cc/re2
-	url = ../re2
-[submodule "third_party/boringssl"]
-	path = third_party/cc/boringssl
-	url = ../boringssl
-[submodule "third_party/icu"]
-	path = third_party/cc/icu
-	url = ../icu
-[submodule "third_party/c-ares"]
-	path = third_party/cc/c-ares
-	url = ../c-ares
-[submodule "third_party/cctz"]
-	path = third_party/cc/cctz
-	url = ../cctz
-[submodule "third_party/abseil-cpp"]
-	path = third_party/cc/abseil-cpp
-	url = ../abseil-cpp
-[submodule "third_party/nanopb"]
-	path = third_party/cc/nanopb
-	url = ../nanopb
-[submodule "third_party/python/six"]
-	path = third_party/python/six
-	url = ../six
+[submodule "third_party/cc/abseil-cpp"]
+    path = third_party/cc/abseil-cpp
+    url = ../abseil-cpp
+    branch = master
+    upstream = https://github.com/abseil/abseil-cpp
+[submodule "third_party/cc/benchmark"]
+    path = third_party/cc/benchmark
+    url = ../benchmark
+    branch = master
+    upstream = https://github.com/google/benchmark
+[submodule "third_party/cc/boost"]
+    path = third_party/cc/boost
+    url = ../boost.git
+    branch = master
+    upstream = https://github.com/boostorg/boost
+[submodule "third_party/cc/boringssl"]
+    path = third_party/cc/boringssl
+    url = ../boringssl
+    branch = master-with-bazel
+    upstream = https://github.com/google/boringssl
+[submodule "third_party/cc/c-ares"]
+    path = third_party/cc/c-ares
+    url = ../c-ares
+    branch = master
+    upstream = https://github.com/c-ares/c-ares
+[submodule "third_party/cc/capstone"]
+    path = third_party/cc/capstone
+    url = ../capstone
+    branch = master
+    upstream = https://github.com/aquynh/capstone
+[submodule "third_party/cc/cctz"]
+    path = third_party/cc/cctz
+    url = ../cctz
+    branch = master
+    upstream = https://github.com/google/cctz
 [submodule "third_party/cc/cpython"]
-	path = third_party/cc/cpython
-	url = ../cpython
-[submodule "third_party/cc/flatbuffers"]
-	path = third_party/cc/flatbuffers
-	url = ../flatbuffers
-[submodule "third_party/cc/swig"]
-	path = third_party/cc/swig
-	url = ../swig
+    path = third_party/cc/cpython
+    url = ../cpython
+    branch = bazel
+    upstream = https://github.com/python/cpython
 [submodule "third_party/cc/curl"]
-	path = third_party/cc/curl
-	url = ../curl
-[submodule "third_party/cc/pcre2"]
-	path = third_party/cc/pcre2
-	url = ../pcre2
+    path = third_party/cc/curl
+    url = ../curl
+[submodule "third_party/cc/flatbuffers"]
+    path = third_party/cc/flatbuffers
+    url = ../flatbuffers
+[submodule "third_party/cc/gflags"]
+    path = third_party/cc/gflags
+    url = ../gflags.git
+    branch = master
+    upstream = https://github.com/gflags/gflags
+[submodule "third_party/cc/glog"]
+    path = third_party/cc/glog
+    url = ../glog.git
+    branch = master
+    upstream = https://github.com/google/glog
+[submodule "third_party/cc/grpc"]
+    path = third_party/cc/grpc
+    url = ../grpc
+    branch = master
+    upstream = https://github.com/grpc/grpc
+[submodule "third_party/cc/gtest"]
+    path = third_party/cc/gtest
+    url = ../googletest.git
+    branch = master
+    upstream = https://github.com/google/googletest
+[submodule "third_party/cc/icu"]
+    path = third_party/cc/icu
+    url = ../icu
+[submodule "third_party/cc/jemalloc"]
+    path = third_party/cc/jemalloc
+    url = ../jemalloc
+    branch = master
+    upstream = https://github.com/jemalloc/jemalloc
+[submodule "third_party/cc/libtorrent"]
+    path = third_party/cc/libtorrent
+    url = ../libtorrent
+    branch = master
+    upstream = https://github.com/arvidn/libtorrent
+[submodule "third_party/cc/libunwind"]
+    path = third_party/cc/libunwind
+    url = ../libunwind
+[submodule "third_party/cc/nanopb"]
+    path = third_party/cc/nanopb
+    url = ../nanopb
+    branch = master
+    upstream = https://github.com/nanopb/nanopb
+[submodule "third_party/cc/openssl"]
+    path = third_party/cc/openssl
+    url = ../openssl.git
+    branch = master
+    upstream = https://github.com/openssl/openssl
 [submodule "third_party/cc/pcre"]
-	path = third_party/cc/pcre
-	url = ../pcre
+    path = third_party/cc/pcre
+    url = ../pcre
+[submodule "third_party/cc/pcre2"]
+    path = third_party/cc/pcre2
+    url = ../pcre2
+[submodule "third_party/cc/protobuf"]
+    path = third_party/cc/protobuf
+    url = ../protobuf.git
+    branch = master
+    upstream = https://github.com/google/protobuf
+[submodule "third_party/cc/re2"]
+    path = third_party/cc/re2
+    url = ../re2
+    branch = master
+    upstream = https://github.com/google/re2
+[submodule "third_party/cc/swig"]
+    path = third_party/cc/swig
+    url = ../swig
+    branch = master
+    upstream = https://github.com/google/protobuf
+[submodule "third_party/cc/zlib"]
+    path = third_party/cc/zlib
+    url = ../zlib
+    branch = master
+    upstream = https://github.com/madler/zlib
+[submodule "third_party/python/six"]
+    path = third_party/python/six
+    url = ../six
