@@ -248,7 +248,9 @@ toolchain {
   tool_path { name: "compat-ld" path: "/opt/clang/6.0.0/bin/ld.lld" }
   tool_path { name: "cpp" path: "/opt/clang/6.0.0/bin/clang-cpp" }
   tool_path { name: "dwp" path: "/opt/clang/6.0.0/bin/llvm-dwp" }
-  tool_path { name: "gcc" path: "/opt/clang/6.0.0/bin/clang" }
+  # Use clang++ instead of clang.  The difference is:
+  #     https://stackoverflow.com/questions/20047218/what-is-the-difference-clang-clang-std-c11
+  tool_path { name: "gcc" path: "/opt/clang/6.0.0/bin/clang++" }
   tool_path { name: "gcov" path: "/usr/bin/gcov" }
   tool_path { name: "ld" path: "/opt/clang/6.0.0/bin/ld.lld" }
   tool_path { name: "nm" path: "/opt/clang/6.0.0/bin/llvm-nm" }
@@ -267,16 +269,17 @@ toolchain {
   cxx_builtin_include_directory: "/usr/include"
 
   # Use the C++ headers shipped with clang.
-  cxx_flag: "-isystem/opt/clang/6.0.0/include/c++/v1"
-  cxx_flag: "-nostdinc++"
+  #cxx_flag: "-isystem/opt/clang/6.0.0/include/c++/v1"
+  #cxx_flag: "-nostdinc++"
   # Default to using ISO C++17.
   # Note that cc_{library,binary,test} rules may override using -std=<dialect>.
   # This is so because only the last occurrence of -std takes effect.
-  cxx_flag: "-std=c++17"
+  #cxx_flag: "-std=c++17"
   #cxx_flag: "-pedantic"
   # Use the lld linker.
   linker_flag: "-fuse-ld=lld"
   # Use the LLVM libc++ instead of the GNU libstdc++.
+  linker_flag: "-lstdc++"
   linker_flag: "-L/opt/clang/6.0.0/lib"
   linker_flag: "-lc++"
   linker_flag: "-lc++abi"

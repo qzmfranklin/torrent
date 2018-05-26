@@ -29,3 +29,9 @@ def repositories():
         reponame = 'bazel-gazelle',
         commit = '0.11.0',
     )
+
+    native.new_local_repository(
+        name = 'clang',
+        path = '/opt/clang/6.0.0',
+        build_file = 'bazel/system_libs/clang.BUILD',
+    )

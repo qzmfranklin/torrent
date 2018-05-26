@@ -1,7 +1,8 @@
 #include <iostream>
+#include <string>
 
 int main(int argc, char const* argv[])
 {
-    std::cout << "hello, world!" << std::endl;
+    std::cout << std::string("hello, world!") << std::endl;
     return 0;
 }
