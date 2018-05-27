@@ -80,6 +80,11 @@
 [submodule "third_party/cc/libunwind"]
     path = third_party/cc/libunwind
     url = ../libunwind
+[submodule "third_party/cc/llvm"]
+    path = third_party/cc/llvm
+    url = ../llvm
+    branch = release_60
+    upstream = https://github.com/llvm-mirror/llvm
 [submodule "third_party/cc/nanopb"]
     path = third_party/cc/nanopb
     url = ../nanopb
@@ -119,7 +124,5 @@
 [submodule "third_party/python/six"]
     path = third_party/python/six
     url = ../six
-[submodule "third_party/cc/llvm"]
-	path = third_party/cc/llvm
-	url = ../llvm
-	branch = release_60
+    branch = master
+    upstream = https://github.com/benjaminp/six
