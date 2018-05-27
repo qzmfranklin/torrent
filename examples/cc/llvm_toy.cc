@@ -1,3 +1,5 @@
+#define _GLIBCXX_USE_CXX11_ABI 1
+
 #include <algorithm>
 #include <cassert>
 #include <cctype>

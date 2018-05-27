@@ -5,5 +5,5 @@
 #include "Shape.h"
 %}
 
-/* Let's just grab the original header file here */
+/* For static linking */
 %include "Shape.h"

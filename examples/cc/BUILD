@@ -13,11 +13,7 @@ cc_binary(
         'llvm_toy.cc',
     ],
     deps = [
-        '@clang//:lib',
-    ],
-    linkopts = [
-        '-ldl',
-        '-pthread',
+        ':llvm',
     ],
     linkstatic = True,
 )

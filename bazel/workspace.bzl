@@ -30,8 +30,16 @@ def repositories():
         commit = '0.11.0',
     )
 
-    native.new_local_repository(
-        name = 'clang',
-        path = '/opt/clang/6.0.0',
-        build_file = 'bazel/system_libs/clang.BUILD',
-    )
+    [ native.new_local_repository(
+        name = name,
+        path = path,
+        build_file = 'bazel/system_libs/%s.BUILD' % name,
+    ) for name, path in {
+            'llvm': '/opt/clang/6.0.0',
+            'cpython_hdrs': '/usr/include/python3.5m',
+            'cpython_libs': '/usr/lib/x86_64-linux-gnu',
+            # TODO (zhongming): Decide which path to use and automate via
+            # ./config.
+            #'cpython_libs': '/usr/lib/python3.5/config-3.5m-x86_64-linux-gnu/',
+        }.items()
+    ]

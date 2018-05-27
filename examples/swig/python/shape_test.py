@@ -2,7 +2,10 @@
 
 import unittest
 
-import shape
+# This importing scehma is ugly. But it would be really difficult to get rid of
+# it considering we are using C/C++ bindings here.
+from examples.swig import shape
+
 
 class TestExample(unittest.TestCase):
 

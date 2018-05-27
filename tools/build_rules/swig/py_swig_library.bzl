@@ -2,45 +2,37 @@
 Rule for calling C/C++ from python.
 '''
 
-MNEMONIC = 'SwigPyCompile'
+MNEMONIC = 'PySwigCompile'
 
-IMPORT_PREFIX = '__swig_py__'
-
-# The .cc file can be named arbitrarily, as long as it is unique.
-CC_PATH_FORMAT = IMPORT_PREFIX + '/%s_wrap.cc'
-
-# The .py and .so files must be named like this.  Otherwise, the resulting code
-# won't be usable.
-PY_PATH_FORMAT = IMPORT_PREFIX + '/%s.py'
-SO_PATH_FORMAT = IMPORT_PREFIX + '/_%s.so'
 
 def _py_swig_codegen_impl(ctx):
-    _swig_library = ctx.attr.swig_library.swig_library
-    compiler = _swig_library.compiler
-    interface_file = _swig_library.interface_file
-    module_name = _swig_library.module_name
+    compiler = list(ctx.attr._swig_compiler.files)[0]
+    interface_file = list(ctx.attr.interface_file.files)[0]
+    module_name = ctx.attr.module_name
 
-    # Input files.
-    # Only .h, .hh, and .hpp files are included.
     input_files = [compiler, interface_file]
-    input_files += _swig_library.cc_hdrs
-    input_files += _swig_library.extra_inputs
+
+    # The list of C/C++ header files that may be included by the interface file.
+    # Only .h, .hh, and .hpp files are included.
+    for cc_lib in ctx.attr.deps:
+        for f in cc_lib.output_groups.compilation_prerequisites_INTERNAL_:
+            if f.extension in ['h', 'hh', 'hpp']:
+                input_files.append(f)
 
     # Output files.
-    cc_file = ctx.new_file(CC_PATH_FORMAT % module_name)
-    py_file = ctx.new_file(PY_PATH_FORMAT % module_name)
+    cc_file, py_file = ctx.outputs.outs
 
     # Arguments.
-    arguments = ['-I' + d for d in _swig_library.swig_include_dirs] + [
+    arguments = [
         # Enable C++ parsing.
         '-c++',
         # Generate python wrappers.
         '-python',
         # Python specific flags.  Visible via `swig -python -help`.
-        '-keyword',
-        '-modern',
-        '-modernargs',
-        '-noproxydel',
+        #'-keyword',
+        #'-modern',
+        #'-modernargs',
+        #'-noproxydel',
         # -o <file>: Set name of C/C++ output file to <file>.
         # We use this flag to re-direct the .cc file to the desired location.
         '-o', cc_file.path,
@@ -54,146 +46,153 @@ def _py_swig_codegen_impl(ctx):
         interface_file.path,
     ]
 
-
-    # Compile the interface into source files.
     ctx.actions.run(
-        arguments = arguments,
-        env = dict(LD_LIBRARY_PATH='/opt/clang/6.0.0/lib'),
-        executable = compiler.path,
-        inputs = input_files,
-        mnemonic = MNEMONIC,
-        outputs = [cc_file, py_file],
-        progress_message = '%s %s' % (MNEMONIC, interface_file.path),
+        arguments=arguments,
+        executable=compiler.path,
+        inputs=input_files,
+        mnemonic=MNEMONIC,
+        outputs=ctx.outputs.outs,
+        progress_message='%s %s' % (MNEMONIC, interface_file.path),
     )
-
-    return struct(files=[cc_file, py_file])
 
 
 _py_swig_codegen = rule(
-    attrs = {
-        'swig_library': attr.label(
-            allow_files = False,
-            executable = False,
-            mandatory = True,
-            providers = [ 'swig_library' ],
+    attrs={
+        'deps': attr.label_list(
+            providers=['cc'],
+            default=[],
         ),
-        'cpython_lib': attr.label(
-            allow_files = False,
-            mandatory = True,
-            providers = [ 'cc' ],
+        'interface_file': attr.label(
+            allow_single_file=True,
+        ),
+        'module_name': attr.string(),
+        'outs': attr.output_list(),
+        '_swig_compiler': attr.label(
+            executable=True,
+            cfg='host',
+            default='//tools/build_rules/swig:swig_wrapper',
         ),
     },
-    output_to_genfiles = True,
-    implementation = _py_swig_codegen_impl,
+    output_to_genfiles=True,
+    implementation=_py_swig_codegen_impl,
 )
 ''' Container for the C/C++ backend code and the SWIG interface file.
 
 Arguments:
-    swig_library: A swig_library() target.
-    cpython_lib: A cc_library() target containing libpython.so, libpython.a, and
-        Python.h.
-
-Provides:
-    cc_file: File, a .cc file that wraps the code to python.  The file name
-        depends on the module_name of the swig_library.  See CC_PATH_FORMAT.
-    py_file: File, a .py file for other python scripts to import.  The file name
-        depends on the module_name of the swig_library.  See PY_PATH_FORMAT.
+    deps: The list of cc_library targets that this swig pacakge depends on.
+    interface_file: The swig interface file.
+    module_name: The python module name to generate.
+    outs: The list of output files that this rule provides.
+    _swig_compiler: The swig compiler.
 '''
 
 
 def _py_swig_so_impl(ctx):
-    _swig_library = ctx.attr.swig_library.swig_library
-    _cc_lib = ctx.attr.cc_wrap_lib
+    if len(ctx.outputs.outs) > 1:
+        fail('_py_swig_so may only have one output')
+    new_file = ctx.outputs.outs[0]
 
-    # Input file.
-    orig_so = None
-    for f in _cc_lib.data_runfiles.files:
-        # Account for both Linux and macOS.
-        if f.extension in ['so', 'dylib']:
-            orig_so = f
-    if not orig_so:
-        fail("%s does not provide a dynamically linked library." % _cc_lib.label)
+    for f in ctx.attr.cc_lib.files:
+        if f.path.endswith('.so'):
+            orig_file = f
+            break
 
-    # Output file.
-    output_so = ctx.new_file(SO_PATH_FORMAT % _swig_library.module_name)
-
-    # Action.
     ctx.actions.run(
-        #arguments = arguments,
-        #env = dict(LD_LIBRARY_PATH='/opt/clang/6.0.0/lib'),
-        executable = 'cp',
-        inputs = [orig_so],
-        #mnemonic = MNEMONIC,
-        outputs = [output_so],
-        #progress_message = '%s %s' % (MNEMONIC, interface_file.path),
+        arguments=[orig_file.path, new_file.path],
+        executable='cp',
+        inputs=[orig_file],
+        outputs=ctx.outputs.outs,
     )
 
 
 _py_swig_so = rule(
-    attrs = {
-        'swig_library': attr.label(
-            mandatory = True,
-            providers = [ 'swig_library' ],
-        ),
-        'cc_wrap_lib': attr.label(
-            mandatory = True,
-            providers = [ 'cc' ],
-        ),
+    attrs={
+        'cc_lib': attr.label(providers=['cc']),
+        'outs': attr.output_list(),
     },
-    output_to_genfiles = True,
-    implementation = _py_swig_so_impl,
+    output_to_genfiles=True,
+    implementation=_py_swig_so_impl
 )
+''' Move the shared library to the designated location.
+
+Arguments:
+    cc_lib: The shared library of this cc_library will be copied.
+    outs: The list of outputs.  Only has one file.
+'''
 
 
-def py_swig_library(name, swig_library, cpython_lib='//third_party/cc/cpython'):
-    # Generate two files: the wrapper .cc file and the wrapper .py file.
-    py_swig_codegen = '_%s_py_swig_codegen' % name
+def py_swig_library(name, visibility, deps, interface_file, module_name,
+                    copts=[], _cpython_lib='//:cpython'):
+    '''
+    Arguments:
+        name: The name of this rule.
+        visibility: The visibility of this rule.
+        deps: The cc_library dependencies that implement the interface_file.
+        interface_file: The swig interface file.
+        module_name: The name of the python module.
+        copts: Passed to cc_library().
+        linkopts: Passed to cc_library().
+        _cpython_lib: The cc_library containing Python.h and libpython3.X.so.
+
+
+    Caveats:
+        If the generated cxx wrapper source file cannot compile due to missing
+        header files, you may patch the include paths via the copts argument.
+        To ease the pain, if the interface_file is in a directory, then that
+        directory is automatically added to the quote include path list, aka,
+        via -I.
+    '''
+    # Generate two files: the wrapper .cc file and the wrapper .py file.  For
+    # example:
+    #   bazel-genfiles/examples/swig/__swig_py__/shape_wrap.cc
+    #   bazel-genfiles/examples/swig/__swig_py__/shape.py
+    py_swig_codegen = '_%s_swig_codegen' % name
+    cc_file = '__swig_py__/%s_wrap.cc' % module_name
+    py_file = '%s.py' % module_name
+    codegen_outs = [cc_file, py_file]
     _py_swig_codegen(
         name = py_swig_codegen,
-        visibility = ['//visibility:private'],
-        swig_library = swig_library,
-        cpython_lib = cpython_lib,
+        visibility = ['//visibility:__pkg__'],
+        deps = deps,
+        interface_file = interface_file,
+        module_name = module_name,
+        outs = codegen_outs,
     )
 
     # Use the native cc_library rule to compile the wrapper .cc file and link
-    # against the cpython_lib.
-    cc_wrap_lib = '_%s_cc_wrap_lib' % name
-    native.cc_library(
-        name = cc_wrap_lib,
-        visibility = ['//visibility:private'],
-        srcs = native.glob([
-            ':' + py_swig_codegen,
-        ], exclude = [
-            '**/*.py',
-        ]),
-        # TODO: Use the line below instead of the glob() above.
-        #srcs = [ ':' + CC_PATH_FORMAT % module_name ],
-        # TODO: Fully understand the two keywords below and see how they can be
-        # used here.
-        #alwayslink = 1,
-        #linkstatic = 0,
-        deps = [ cpython_lib ],
+    # against the _cpython_lib.
+    ccwrap_lib = '_%s_swig_ccwrap.so' % name
+    toks = interface_file.split('/')
+    if toks:
+        interface_file_dirname = '/'.join([native.package_name()] + toks[:-1])
+    else:
+        interface_file_dirname = '.'
+    native.cc_binary(
+        name = ccwrap_lib,
+        visibility = ['//visibility:__pkg__'],
+        srcs = [ cc_file ],
+        deps = deps + [ _cpython_lib ],
+        copts = copts + [ '-I' + interface_file_dirname],
+        linkshared = True,
     )
 
-    # Copy the .so file from the previous step to _<module_name>.so.
-    py_swig_so = '_%s_py_swig_so' % name
+    # Move the generated .py file and the compiled library files into the same
+    # directory.
+    py_swig_so = '_%s_swig_so' % name
+    so_file = '_%s.so' % module_name
     _py_swig_so(
         name = py_swig_so,
-        visibility = ['//visibility:private'],
-        swig_library = swig_library,
-        cc_wrap_lib = cc_wrap_lib,
+        cc_lib = ccwrap_lib,
+        outs = [ so_file ],
     )
 
-    # Create a py_library() using _<module_name>.so and the wrapper .py file.
+    # Define the actual py_library with the same name passed to this macro.
     native.py_library(
         name = name,
-        visibility = ['//visibility:public'],
-        srcs = native.glob([
-            ':' + py_swig_codegen,
-            ':' + py_swig_so,
-        ], exclude = [
-            '*.cc',
-        ]),
-        imports = [ IMPORT_PREFIX ],
-        data = [ ':' + py_swig_so ],
+        visibility = visibility,
+        srcs = [ py_file ],
+        data = [ so_file ],
+        # Skylark panics over the word 'import', so I cannot enable the line
+        # below.
+        #import = [ interface_file_dirname ],
     )

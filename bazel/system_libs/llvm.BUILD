@@ -10,5 +10,13 @@ cc_library(
     hdrs = glob([
         'include/**/*',
     ]),
+    linkopts = [
+        # LLVM libraries are linked against stdc++ and a few other system
+        # libraries.
+        '-ldl',
+        '-lm',
+        '-lstdc++',
+        '-pthread',
+    ],
     strip_include_prefix = 'include',
 )

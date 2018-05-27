@@ -17,12 +17,13 @@ build --show_progress_rate_limit=1.0
 build --explain=bazel-buildlogs
 build --verbose_explanations
 # Do not inherit environment variables to ensure fully hermetic build.
-build --experimental_strict_action_env
-# Display warning when test size is too big.
-#build --test_verbose_timeout_warnings
 # TODO: For some reason that is yet to be understood, I have to explicitly
 # export LD_LIBRARY_PATH=/opt/clang/6.0.0/lib even though `echo
 # $LD_LIBRARY_PATH` already yields the desired value from .bashrc.
+build --experimental_strict_action_env
+build --action_env=LD_LIBRARY_PATH
+# Display warning when test size is too big.
+#build --test_verbose_timeout_warnings
 
 
 #                       Enable clang-tidy and More
