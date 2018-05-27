@@ -115,7 +115,7 @@
     path = third_party/cc/swig
     url = ../swig
     branch = master
-    upstream = https://github.com/google/protobuf
+    upstream = https://github.com/swig/swig
 [submodule "third_party/cc/zlib"]
     path = third_party/cc/zlib
     url = ../zlib
