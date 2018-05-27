@@ -23,7 +23,8 @@ import configparser
 import os
 import pathlib
 import subprocess
-import validators
+
+import git_submodule
 
 DEFAULT_UPSTREAM_FILENAME = '.upstream'
 DEFAULT_UPSTREAM_NAME = 'upstream'
@@ -47,31 +48,40 @@ def _get_upstream_files(root_dir, *, upstream_file='UPSTREAM'):
 
 
 def execute(args):  # pylint: disable=missing-docstring
-    for path, config in _get_upstream_files(
-        args.root_dir, upstream_file=args.upstream_file
-    ):
-        url = config['url']
-        if not validators.url(url):
-            raise ValueError('Invalid URL string', url)
-        branch = config['branch']
-
-        cmd = [
-            'git', 'remote', 'add', '--track', branch, args.upstream_name, url
-        ]
+    for submodule in git_submodule.get_submodules():
+        print(submodule)
+        cmds = []
+        if hasattr(submodule, 'upstream'):
+            cmds.append([
+                'git',
+                'remote',
+                'add',
+                '--track',
+                submodule.branch,
+                args.upstream_name,
+                submodule.upstream,
+            ])
+            cmds.append([
+                'git',
+                'remote',
+                'set-url',
+                args.upstream_name,
+                submodule.upstream,
+            ])
+        cmds.append([
+            'git',
+            'checkout',
+            submodule.branch,
+        ])
+        path = pathlib.Path(submodule.path)
         if args.dry_run:
             print('cd', path.absolute())
-            print(subprocess.list2cmdline(cmd))
+            for cmd in cmds:
+                print(subprocess.list2cmdline(cmd))
         else:
-            proc = subprocess.run(
-                cmd,
-                cwd=str(path),
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
-            )
-            if proc.returncode == 0:
-                print(path, 'has the upstream remote.')
-            else:
-                print(path, 'already has the upstream remote set up.')
+            for cmd in cmds:
+                print(subprocess.list2cmdline(cmd))
+                subprocess.run(cmd, cwd=str(path))
 
 
 def main():

@@ -12,6 +12,19 @@ def _py_swig_codegen_impl(ctx):
 
     input_files = [compiler, interface_file]
 
+
+    # Add the .i and .swg files to the input files and the include directories
+    # of swig.
+    extra_args = []
+    for filegroup in ctx.attr._swig_data:
+        for file in filegroup.files:
+            input_files.append(file)
+            arg = None
+            if file.path.endswith('.swg'):
+                arg = '-I' + file.dirname
+            if arg and arg not in extra_args:
+                extra_args.append(arg)
+
     # The list of C/C++ header files that may be included by the interface file.
     # Only .h, .hh, and .hpp files are included.
     for cc_lib in ctx.attr.deps:
@@ -45,6 +58,7 @@ def _py_swig_codegen_impl(ctx):
         '-outdir', py_file.dirname,
         # Set the module name.
         '-module', module_name,
+    ] + sorted(extra_args) + [
         interface_file.path,
     ]
 
@@ -72,8 +86,14 @@ _py_swig_codegen = rule(
         '_swig_compiler': attr.label(
             executable=True,
             cfg='host',
-            default='//tools/build_rules/swig:swig_wrapper',
+            default='//third_party/cc/swig:swig',
         ),
+        '_swig_data': attr.label_list(
+            default=[
+                '//third_party/cc/swig:swigwarn_swg',
+                '//third_party/cc/swig:templates',
+            ],
+        )
     },
     output_to_genfiles=True,
     implementation=_py_swig_codegen_impl,

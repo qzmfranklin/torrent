@@ -38,12 +38,6 @@
     url = ../cpython
     branch = bazel
     upstream = https://github.com/python/cpython
-[submodule "third_party/cc/curl"]
-    path = third_party/cc/curl
-    url = ../curl
-[submodule "third_party/cc/flatbuffers"]
-    path = third_party/cc/flatbuffers
-    url = ../flatbuffers
 [submodule "third_party/cc/gflags"]
     path = third_party/cc/gflags
     url = ../gflags.git
@@ -67,6 +61,7 @@
 [submodule "third_party/cc/icu"]
     path = third_party/cc/icu
     url = ../icu
+    branch = master
 [submodule "third_party/cc/jemalloc"]
     path = third_party/cc/jemalloc
     url = ../jemalloc
@@ -80,6 +75,8 @@
 [submodule "third_party/cc/libunwind"]
     path = third_party/cc/libunwind
     url = ../libunwind
+    branch = master
+    upstream = https://github.com/libunwind/libunwind
 [submodule "third_party/cc/llvm"]
     path = third_party/cc/llvm
     url = ../llvm
@@ -98,9 +95,11 @@
 [submodule "third_party/cc/pcre"]
     path = third_party/cc/pcre
     url = ../pcre
+    branch = master
 [submodule "third_party/cc/pcre2"]
     path = third_party/cc/pcre2
     url = ../pcre2
+    branch = master
 [submodule "third_party/cc/protobuf"]
     path = third_party/cc/protobuf
     url = ../protobuf.git
