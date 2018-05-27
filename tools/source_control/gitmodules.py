@@ -19,12 +19,12 @@ class Submodule(object):
     GIT_ATTRS = ['path', 'url', 'branch', 'upstream']
 
     @classmethod
-    def from_dict(cls, dd):
+    def from_dict(cls, datum):
         '''Instantiate a Submodule from a dictionary.'''
-        unknown_attrs = set(dd.keys()) - set(cls.GIT_ATTRS)
+        unknown_attrs = set(datum.keys()) - set(cls.GIT_ATTRS)
         if unknown_attrs:
             raise RuntimeError('Unknown submodule attribute(s)', unknown_attrs)
-        return cls(**dd)
+        return cls(**datum)
 
     def __init__(self, **kwargs):
         '''Private constructor.
@@ -35,7 +35,7 @@ class Submodule(object):
 
     def __str__(self):
         lines = []
-        lines.append('[submodule "%s"]' % self.path)
+        lines.append('[submodule "%s"]' % self.path)  # pylint: disable=no-member
         for attr in self.__class__.GIT_ATTRS:
             if hasattr(self, attr):
                 # pylint: disable=no-member
@@ -51,16 +51,16 @@ def _get_submodules():
     retval = []
     submodule_regex = re.compile(r'^\[submodule ".*"\]$')
     with open(str(GITMODULES), 'r') as f:
-        dd = {}
+        datum = {}
         for line in f:
             line = line.rstrip()
 
             # Example line:
-            #       [submodule "third_party/boost"]
+            #       [submodule "third_party/cc/boost"]
             if submodule_regex.match(line):
-                if dd:
-                    retval.append(Submodule.from_dict(dd))
-                dd = {}
+                if datum:
+                    retval.append(Submodule.from_dict(datum))
+                datum = {}
                 continue
 
             # Example line:
@@ -69,7 +69,9 @@ def _get_submodules():
             assert pos != -1
             key = line[:pos].strip()
             val = line[pos + 1:].strip()
-            dd[key] = val
+            datum[key] = val
+        # Add the last submodule from .gitmodules.
+        retval.append(Submodule.from_dict(datum))
 
     return sorted(retval, key=lambda x: x.path)
 

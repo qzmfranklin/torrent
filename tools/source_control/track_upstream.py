@@ -38,13 +38,12 @@ def _get_upstream_files(root_dir, *, upstream_file='UPSTREAM'):
         iteration, where path is a pathlib.Path object and config is a validated
         UPSTREAM configuration.
     '''
-    for root, _, files in os.walk(root_dir):
-        if upstream_file in files:
-            path = pathlib.Path(root)
-            upstream_file = path / upstream_file
+    for root, _, _ in os.walk(str(root_dir)):
+        path = pathlib.Path(root) / upstream_file
+        if path.is_file():
             config = configparser.ConfigParser()
-            config.read(upstream_file)
-            yield path, config[DEFAULT_UPSTREAM_SECTION_NAME]
+            config.read(str(path))
+            yield path.parent, config[DEFAULT_UPSTREAM_SECTION_NAME]
 
 
 def execute(args):  # pylint: disable=missing-docstring
@@ -63,15 +62,16 @@ def execute(args):  # pylint: disable=missing-docstring
             print('cd', path.absolute())
             print(subprocess.list2cmdline(cmd))
         else:
-            os.chdir(path)
-            ret = subprocess.run(
-                cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            proc = subprocess.run(
+                cmd,
+                cwd=str(path),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
             )
-            if ret.returncode != 0:
-                print(
-                    '%s already has the %s remote set up.' %
-                    (path.absolute(), args.upstream_name)
-                )
+            if proc.returncode == 0:
+                print(path, 'has the upstream remote.')
+            else:
+                print(path, 'already has the upstream remote set up.')
 
 
 def main():
