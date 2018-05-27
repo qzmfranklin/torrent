@@ -21,7 +21,6 @@ build --verbose_explanations
 # export LD_LIBRARY_PATH=/opt/clang/6.0.0/lib even though `echo
 # $LD_LIBRARY_PATH` already yields the desired value from .bashrc.
 build --experimental_strict_action_env
-build --action_env=LD_LIBRARY_PATH
 # Display warning when test size is too big.
 #build --test_verbose_timeout_warnings
 

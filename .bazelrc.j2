@@ -29,6 +29,10 @@ block, which will cause cpp to use the default toolchain configured for macOS.
 # work should have been done automatically.  The only thing you might still need
 # to do is to start a new terminal to update the environment variables.
 build --crosstool_top=//tools/cpp:toolchain --cpu=llvm
+
+# Note that tools/bazel.rc uses --experimental_strict_action_env.  So that this
+# is the only leaked environment variable.
+build --action_env=LD_LIBRARY_PATH=/opt/clang/6.0.0/lib
 {% else %}
     {% raise 'architecture ' + architecture + ' is not supported' %}
 {% endif %}
