@@ -119,3 +119,7 @@
 [submodule "third_party/python/six"]
     path = third_party/python/six
     url = ../six
+[submodule "third_party/cc/llvm"]
+	path = third_party/cc/llvm
+	url = ../llvm
+	branch = release_60
