@@ -29,10 +29,12 @@ def _py_swig_codegen_impl(ctx):
         # Generate python wrappers.
         '-python',
         # Python specific flags.  Visible via `swig -python -help`.
-        #'-keyword',
-        #'-modern',
-        #'-modernargs',
-        #'-noproxydel',
+        '-O',
+        '-builtin',
+        '-keyword',
+        '-py3',
+        '-relativeimport',
+        '-threads',
         # -o <file>: Set name of C/C++ output file to <file>.
         # We use this flag to re-direct the .cc file to the desired location.
         '-o', cc_file.path,
@@ -87,42 +89,8 @@ Arguments:
 '''
 
 
-def _py_swig_so_impl(ctx):
-    if len(ctx.outputs.outs) > 1:
-        fail('_py_swig_so may only have one output')
-    new_file = ctx.outputs.outs[0]
-
-    for f in ctx.attr.cc_lib.files:
-        if f.path.endswith('.so'):
-            orig_file = f
-            break
-
-    ctx.actions.run(
-        arguments=[orig_file.path, new_file.path],
-        executable='cp',
-        inputs=[orig_file],
-        outputs=ctx.outputs.outs,
-    )
-
-
-_py_swig_so = rule(
-    attrs={
-        'cc_lib': attr.label(providers=['cc']),
-        'outs': attr.output_list(),
-    },
-    output_to_genfiles=True,
-    implementation=_py_swig_so_impl
-)
-''' Move the shared library to the designated location.
-
-Arguments:
-    cc_lib: The shared library of this cc_library will be copied.
-    outs: The list of outputs.  Only has one file.
-'''
-
-
 def py_swig_library(name, visibility, deps, interface_file, module_name,
-                    copts=[], _cpython_lib='//:cpython'):
+                    copts=[], _cpython_lib='//:cpython_dynamic'):
     '''
     Arguments:
         name: The name of this rule.
@@ -132,7 +100,8 @@ def py_swig_library(name, visibility, deps, interface_file, module_name,
         module_name: The name of the python module.
         copts: Passed to cc_library().
         linkopts: Passed to cc_library().
-        _cpython_lib: The cc_library containing Python.h and libpython3.X.so.
+        _cpython_lib: The cc_library containing Python.h and the source code (or
+            prebuilt libraries).
 
 
     Caveats:
@@ -147,7 +116,7 @@ def py_swig_library(name, visibility, deps, interface_file, module_name,
     #   bazel-genfiles/examples/swig/__swig_py__/shape_wrap.cc
     #   bazel-genfiles/examples/swig/__swig_py__/shape.py
     py_swig_codegen = '_%s_swig_codegen' % name
-    cc_file = '__swig_py__/%s_wrap.cc' % module_name
+    cc_file = '%s.py.swig.wrap.cc' % module_name
     py_file = '%s.py' % module_name
     codegen_outs = [cc_file, py_file]
     _py_swig_codegen(
@@ -161,6 +130,11 @@ def py_swig_library(name, visibility, deps, interface_file, module_name,
 
     # Use the native cc_library rule to compile the wrapper .cc file and link
     # against the _cpython_lib.
+    # NOTE: This target must be named like this, i.e., '*.so', so that bazel
+    # knows that this is building a dynamically linked library.  Otherwise,
+    # bazel will complain that there is no main() function.
+    # TODO (zhongming): Enable static linking?  So far cannot get it to work
+    # yet.
     ccwrap_lib = '_%s_swig_ccwrap.so' % name
     toks = interface_file.split('/')
     if toks:
@@ -172,18 +146,23 @@ def py_swig_library(name, visibility, deps, interface_file, module_name,
         visibility = ['//visibility:__pkg__'],
         srcs = [ cc_file ],
         deps = deps + [ _cpython_lib ],
-        copts = copts + [ '-I' + interface_file_dirname],
+        copts = copts + [
+            '-I' + interface_file_dirname,
+            # The list of copts here should mute whatever warnings rising from
+            # compiling the generated C++ file.
+            '-Wno-unused-variable',
+        ],
         linkshared = True,
     )
 
     # Move the generated .py file and the compiled library files into the same
     # directory.
-    py_swig_so = '_%s_swig_so' % name
     so_file = '_%s.so' % module_name
-    _py_swig_so(
-        name = py_swig_so,
-        cc_lib = ccwrap_lib,
+    native.genrule(
+        name = '_%s_swig_so' % name,
+        srcs = [ ccwrap_lib ],
         outs = [ so_file ],
+        cmd = 'cp $< $@',
     )
 
     # Define the actual py_library with the same name passed to this macro.

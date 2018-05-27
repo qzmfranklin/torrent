@@ -1,6 +1,6 @@
 # TODO: The swig rules do not work yet.  Leave these here.
 
-load('@//tools/build_rules/swig:py_swig_library.bzl', 'py_swig_library')
+load('@//tools/build_rules/swig:swig_library.bzl', 'py_swig_library')
 
 py_test(
     name = 'py_shape_test',

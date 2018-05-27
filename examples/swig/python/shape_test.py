@@ -2,9 +2,12 @@
 
 import unittest
 
-# This importing scehma is ugly. But it would be really difficult to get rid of
-# it considering we are using C/C++ bindings here.
-from examples.swig import shape
+try:
+    # Works when invoked from the examples/swig directory, e.g., via Makefile.
+    import shape
+except ImportError:
+    # Works when invoked from `bazel test`.
+    from examples.swig import shape
 
 
 class TestExample(unittest.TestCase):
